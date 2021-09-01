@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course</title>
+  <link href="/css/index.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="main">
+  <div class="sidenav">
+    <div class="title">Lesson navigation</div>
+    <ul>
+
+    </ul>
+  </div>
+  <div class="content">
+    <h1>Let’s Create an Image Pop-Out Effect With SVG Clip Path</h1>
+    <h3 class="content-author">
+      <img src="/img/images/css2/image%2031.png" alt="1"/>
+      <span>Adrian Bece on Apr 2, 2021</span></h3>
+    <p class="mute"><i>This article is credit to <a
+        href="https://css-tricks.com/lets-create-an-image-pop-out-effect-with-svg-clip-path/">CSS trick</a></i></p>
+
+    <p>Few weeks ago, I stumbled upon this cool pop-out effect by Mikael Ainalem. It showcases the clip-path: path() in
+      CSS, which just got proper support in most modern browsers. I wanted to dig into it myself to get a better feel
+      for how it works. But in the process, I found some issues with clip-path: path(); and wound up finding an
+      alternative approach that I wanted to walk through with you in this article.</p>
+
+    <img src="/img/images/css2/image%2033.png" alt="1" style="width: 520px; height: 398px;"/>
+
+    <p>
+      If you haven’t used clip-path or you are unfamiliar with it, it basically allows us to specify a display region
+      for an element based on a clipping path and hide portions of the element that fall outside the clip path.
+    </p>
+
+    <img src="/img/images/css2/image%2032.png" alt="1" style="width: 800px; height: 300px;"/>
+
+    <p>
+      A rectangle with a pastel pattern, plus an unfilled star shape with a black border, equals a star shape with the
+      pastel background pattern.
+
+
+    </p>
+    <p>You can kind of think of it as though the star is a cookie cutter, the element is the cookie dough, and the
+      result is a star-shaped cookie.</p>
+    <p>Possible values for clip-path include circle , ellipse and polygon which limit the use-case to just those
+      specific shapes. This is where the new path value comes in — it allows us to use a more flexible SVG path to
+      create various clipping paths that go beyond basic shapes.</p>
+    <br/>
+    <p>
+      Let’s take what we know about clip-path and start working on the hover effect. The basic idea of the is to make
+      the foreground image of a person appear to pop-out from the colorful background and scale up in size when the
+      element is hovered. An important detail is how the foreground image animation (scale up and move up) appears to be
+      independent from the background image animation (scale up only).
+    </p>
+  </div>
+</div>
+
+</body>
+</html>

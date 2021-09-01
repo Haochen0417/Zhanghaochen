@@ -1,0 +1,416 @@
+package ghost;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.io.FileWriter;
+import java.lang.Object;
+
+
+
+public class App extends PApplet {
+
+    public static final int WIDTH = 448;
+    public static final int HEIGHT = 576;
+    private PImage downleft;
+    private PImage downright;
+    private PImage fruit;
+    private PImage vertical;
+    private PImage upright;
+    private PImage upleft;
+    private PImage ghost;
+    private PImage horizontal;
+    private PImage playerleft;
+    private PImage playerclosed;
+    private PImage playerup;
+    private Player player;
+    private File myObj;
+    private int x;
+    private int d;
+    private int ed;
+    private ArrayList<String> maparray;
+    public App() {
+        //Set up your objects
+        x=2;
+        d=0;
+        maparray=new ArrayList<String>();
+    }
+
+    public void setup() {
+        frameRate(60);
+        this.downleft= this.loadImage("src/main/resources/downLeft.png");
+        this.downright= this.loadImage("src/main/resources/downRight.png");
+        this.fruit= this.loadImage("src/main/resources/fruit.png");
+        this.vertical= this.loadImage("src/main/resources/vertical.png");
+        this.upright= this.loadImage("src/main/resources/upRight.png");
+        this.upleft= this.loadImage("src/main/resources/upLeft.png");
+        this.ghost= this.loadImage("src/main/resources/chaser.png");
+        this.horizontal= this.loadImage("src/main/resources/horizontal.png");
+        this.playerclosed= this.loadImage("src/main/resources/playerClosed.png");
+        this.playerup= this.loadImage("src/main/resources/playerUp.png");
+        this.playerleft=this.loadImage("src/main/resources/playerLeft.png");
+
+        // Load images
+        JSONParser parser = new JSONParser();
+        try {
+              Object obj = parser.parse(new FileReader("config.json"));
+              JSONObject jsonObject = (JSONObject) obj;
+              String map = (String) jsonObject.get("map");
+              myObj = new File(map);
+              try {
+            Scanner myReader = new Scanner(myObj);
+            int ii=0;
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                if(data!=null){
+                    maparray.add(data);
+                }
+                int i=0;
+                while(i<data.length()){
+                    if(data.substring(i,i+1).equals("p")){
+                        this.player=new Player(16*i,16*ii,1,1,this.loadImage("src/main/resources/playerClosed.png"));
+                    }
+                    i++;
+                }
+                ii++;
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        } catch (FileNotFoundException e) {
+              e.printStackTrace();
+        } catch (IOException e) {
+              e.printStackTrace();
+        } catch (ParseException e) {
+              e.printStackTrace();
+        }
+
+
+
+    }
+
+    public void settings() {
+        size(WIDTH, HEIGHT);
+    }
+
+    public void draw() {
+        background(0,0,0);
+
+        int ii=0;
+        while(ii<maparray.size()){
+            int i=0;
+            String data=maparray.get(ii);
+            while(i<data.length()){
+                if(data.substring(i,i+1).equals("0")){
+
+                }else if(data.substring(i,i+1).equals("1")){
+                    this.image(this.horizontal,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("2")){
+                    this.image(this.vertical,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("3")){
+                    this.image(this.upleft,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("4")){
+                    this.image(this.upright,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("5")){
+                    this.image(this.downleft,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("6")){
+                    this.image(this.downright,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("7")){
+                    this.image(this.fruit,16*i,16*ii);
+                }else if(data.substring(i,i+1).equals("g")){
+                    this.image(this.ghost,16*i,16*ii);
+                }
+                i++;
+            }
+            ii++;
+        }
+
+        maparray.clear();
+        maparray=mm.readjson();
+        maparray=mm.mapclean(player, ambusher, chaser, ignorant, whim,maparray);
+
+                    System.out.println("ok");
+            System.out.println(x);
+            System.out.println(y);
+            for(int[] na : numarray){
+                for(int n : na){
+                    System.out.println(n);
+                }
+            }
+
+        if(d==38){
+            if(ed==37 && this.player.gety()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("0"))){
+                    d=37;
+                }else if(this.player.getx()%16!=0 ){
+                    d=37;
+                }
+
+            }else if(ed==39 && this.player.gety()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("0"))){
+                    d=39;
+                }else if(this.player.getx()%16!=0 ){
+                    d=39;
+                }
+            }else if(ed==40 && this.player.getx()%16==0){
+                if(this.player.gety()%16==0 && (maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7") || maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=40;
+                }else if(this.player.gety()%16!=0){
+                    d=40;
+                }
+            }
+        }else if(d==40){
+            if(ed==37 && this.player.gety()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("0"))){
+                    d=37;
+                }else if(this.player.getx()%16!=0 ){
+                    d=37;
+                }
+
+            }else if(ed==39 && this.player.gety()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("0"))){
+                    d=39;
+                }else if(this.player.getx()%16!=0 ){
+                    d=39;
+                }
+            }else if(ed==38 && this.player.getx()%16==0){
+                if(this.player.gety()%16==0 && (maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7")||maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=38;
+                }else if(this.player.gety()%16!=0){
+                    d=38;
+                }
+            }
+        }else if(d==37){
+            if(ed==40 && this.player.getx()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7") || maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=40;
+                }else if(this.player.getx()%16!=0 ){
+                    d=40;
+                }
+            }else if(ed==39 && this.player.gety()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("0"))){
+                    d=39;
+                }else if(this.player.getx()%16!=0 ){
+                    d=39;
+                }
+            }else if(ed==38 && this.player.getx()%16==0){
+                if(this.player.gety()%16==0 && (maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7")||maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=38;
+                }else if(this.player.gety()%16!=0){
+                    d=38;
+                }
+            }
+        }else if(d==39){
+            if(ed==40 && this.player.getx()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7") || maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=40;
+                }else if(this.player.getx()%16!=0 ){
+                    d=40;
+                }
+            }else if(ed==37 && this.player.gety()%16==0 ){
+               if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("0"))){
+                    d=37;
+                }else if(this.player.getx()%16!=0 ){
+                    d=37;
+                }
+            }else if(ed==38 && this.player.getx()%16==0){
+                if(this.player.gety()%16==0 && (maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7")||maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=38;
+                }else if(this.player.gety()%16!=0){
+                    d=38;
+                }
+            }
+        }else if(d==0){
+            if(ed==40 && this.player.getx()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7") || maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=40;
+                }else if(this.player.getx()%16!=0 ){
+                    d=40;
+                }
+            }else if(ed==37 && this.player.gety()%16==0 ){
+               if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("0"))){
+                    d=37;
+                }else if(this.player.getx()%16!=0 ){
+                    d=37;
+                }
+            }else if(ed==38 && this.player.getx()%16==0){
+                if(this.player.gety()%16==0 && (maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7")||maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                    d=38;
+                }else if(this.player.gety()%16!=0){
+                    d=38;
+                }
+            }else if(ed==39 && this.player.gety()%16==0 ){
+                if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("0"))){
+                    d=39;
+                }else if(this.player.getx()%16!=0 ){
+                    d=39;
+                }
+            }
+        }
+        if(d==37){
+            if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16-1,this.player.getx()/16).equals("0"))){
+                this.player.tickxd();
+            }else if(this.player.getx()%16!=0 ){
+                this.player.tickxd();
+            }
+        }else if(d==39){
+            if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("7") || maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1,this.player.getx()/16+2).equals("0"))){
+                this.player.tickxu();
+            }else if(this.player.getx()%16!=0 ){
+                this.player.tickxu();
+            }
+        }else if(d==38){
+            if(this.player.gety()%16==0 && (maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7")||maparray.get(this.player.gety()/16-1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                this.player.tickyd();
+            }else if(this.player.gety()%16!=0){
+                this.player.tickyd();
+            }
+        }else if(d==40){
+            if(this.player.getx()%16==0 && (maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7") || maparray.get(this.player.gety()/16+1).substring(this.player.getx()/16,this.player.getx()/16+1).equals("0"))){
+                this.player.tickyu();
+            }else if(this.player.getx()%16!=0 ){
+                this.player.tickyu();
+            }
+        }
+
+
+        if((x/8)%2==0){
+            this.player.setimage(this.loadImage("src/main/resources/playerClosed.png"));
+            this.player.draw(this);
+        }else{
+            if(d==37){
+                this.player.setimage(this.loadImage("src/main/resources/playerLeft.png"));
+                this.player.draw(this);
+            }else if(d==38){
+                this.player.setimage(this.loadImage("src/main/resources/playerUp.png"));
+                this.player.draw(this);
+            }else if(d==39){
+                this.player.setimage(this.loadImage("src/main/resources/playerRight.png"));
+                this.player.draw(this);
+            }else if(d==40){
+                this.player.setimage(this.loadImage("src/main/resources/playerDown.png"));
+                this.player.draw(this);
+            }else{
+                this.player.setimage(this.loadImage("src/main/resources/playerClosed.png"));
+                this.player.draw(this);
+            }
+
+        }
+        x++;
+
+        if(this.player.getx()%16==0 && this.player.gety()%16==0){
+            if(maparray.get(this.player.gety()/16).substring(this.player.getx()/16,this.player.getx()/16+1).equals("7")){
+                maparray.set(this.player.gety()/16,maparray.get(this.player.gety()/16).substring(0,this.player.getx()/16)+"0"+maparray.get(this.player.gety()/16).substring(this.player.getx()/16+1));
+            }
+        }
+
+
+
+
+
+
+
+
+    }
+
+    public void keyPressed() {
+        this.ed=keyCode;
+    }
+    public static void main(String[] args) {
+        PApplet.main("ghost.App");
+    }
+
+}
+
+public int livestime(){
+        JSONParser parser = new JSONParser();
+        try {
+              Object obj = parser.parse(new FileReader("config.json"));
+              JSONObject jsonObject = (JSONObject) obj;
+              long map = (long) jsonObject.get("lives");
+              int mapa = (int) map;
+              return mapa;
+
+        } catch (FileNotFoundException e) {
+              e.printStackTrace();
+        } catch (IOException e) {
+              e.printStackTrace();
+        } catch (ParseException e) {
+              e.printStackTrace();
+        }
+        return 0;
+    }
+    public int speedstime(){
+        JSONParser parser = new JSONParser();
+        try {
+              Object obj = parser.parse(new FileReader("config.json"));
+              JSONObject jsonObject = (JSONObject) obj;
+              long map = (long) jsonObject.get("speed");
+              int mapa = (int) map;
+              return mapa;
+
+        } catch (FileNotFoundException e) {
+              e.printStackTrace();
+        } catch (IOException e) {
+              e.printStackTrace();
+        } catch (ParseException e) {
+              e.printStackTrace();
+        }
+        return 0;
+    }
+    public int debug(Player player,Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim, ArrayList<String> maparray,int x,int d){
+
+        if(x%(60*getscattertime().get(0)+60*getscattertime().get(1))<=60*getscattertime().get(0)){
+            line(ambusher.getx(),ambusher.gety(),27*16,3*16);
+        }else{
+            if(d==37){
+                line(ambusher.getx(),ambusher.gety(),player.getx()-64,player.gety());
+            }else if(d==38){
+                line(ambusher.getx(),ambusher.gety(),player.getx(),player.gety()-64);
+            }else if(d==39){
+                line(ambusher.getx(),ambusher.gety(),player.getx()+64,player.gety());
+            }else if(d==40){
+                line(ambusher.getx(),ambusher.gety(),player.getx(),player.gety()+64);
+            }
+        }
+        if(x%(60*getscattertime().get(2)+60*getscattertime().get(3))<=60*getscattertime().get(2)){
+            line(chaser.getx(),chaser.gety(),0*16,3*16);
+        }else{
+            line(chaser.getx(),chaser.gety(),player.getx(),player.gety());
+        }
+        if(x%(60*getscattertime().get(4)+60*getscattertime().get(5))<=60*getscattertime().get(4)){
+            line(ignorant.getx(),ignorant.gety(),0*16,33*16);
+        }else{
+            if((ignorant.getx()/16-player.getx()/16)*(ignorant.getx()/16-player.getx()/16)+(ignorant.gety()/16-player.gety()/16)*(ignorant.gety()/16-player.gety()/16)<=64){
+                line(ignorant.getx(),ignorant.gety(),player.getx(),player.gety());
+            }else{
+                line(ignorant.getx(),ignorant.gety(),0*16,33*16);
+            }
+        }
+        if(x%(60*getscattertime().get(6)+60*getscattertime().get(7))<=60*getscattertime().get(6)){
+            line(whim.getx(),whim.gety(),27*16,33*16);
+        }else{
+            if(d==37){
+                line(player.getx(),player.gety(),2*(player.getx()-2-chaser.getx())+chaser.getx(),2*(player.gety()-chaser.gety()));
+            }else if(d==38){
+                line(player.getx(),player.gety(),2*(player.getx()-chaser.getx())+chaser.getx(),2*(player.gety()-2-chaser.gety()));
+            }else if(d==39){
+                line(player.getx(),player.gety(),2*(player.getx()+2-chaser.getx())+chaser.getx(),2*(player.gety()-chaser.gety()));
+            }else if(d==40){
+                line(player.getx(),player.gety(),2*(player.getx()-chaser.getx())+chaser.getx(),2*(player.gety()+2-chaser.gety()));
+            }
+        }
+    }

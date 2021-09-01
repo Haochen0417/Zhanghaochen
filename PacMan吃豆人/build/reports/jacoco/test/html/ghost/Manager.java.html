@@ -1,0 +1,664 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Manager.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Milestone</a> &gt; <a href="index.source.html" class="el_package">ghost</a> &gt; <span class="el_source">Manager.java</span></div><h1>Manager.java</h1><pre class="source lang-java linenums">package ghost;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.io.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.lang.Object;
+public class Manager{
+    private File myObj;
+    private ArrayList&lt;String&gt; maparray;
+    private ArrayList&lt;String&gt; maparrayo;
+<span class="fc" id="L18">    public Manager(){</span>
+<span class="fc" id="L19">        maparray=new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L20">        maparrayo=new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L21">    }</span>
+    public ArrayList&lt;String&gt; readjson(){
+<span class="fc" id="L23">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L25">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L26">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L27">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L28">              myObj = new File(map);</span>
+            try {
+<span class="fc" id="L30">            Scanner myReader = new Scanner(myObj);</span>
+
+<span class="fc" id="L32">            int ii=0;</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L34">                String data = myReader.nextLine();</span>
+
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">                if(data!=null){</span>
+<span class="fc" id="L37">                    maparray.add(data);</span>
+                }
+
+<span class="fc" id="L40">            }</span>
+<span class="fc" id="L41">            myReader.close();</span>
+<span class="fc" id="L42">            return maparray;</span>
+<span class="nc" id="L43">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L44">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L46">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L47">              e.printStackTrace();</span>
+<span class="nc" id="L48">        } catch (IOException e) {</span>
+<span class="nc" id="L49">              e.printStackTrace();</span>
+<span class="nc" id="L50">        } catch (ParseException e) {</span>
+<span class="nc" id="L51">              e.printStackTrace();</span>
+<span class="nc" id="L52">        }</span>
+<span class="nc" id="L53">        return null;</span>
+    }
+    public int getx(){
+<span class="fc" id="L56">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L58">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L59">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L60">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L61">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L63">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L64">            int ii=0;</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L66">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L70">                int i=0;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;p&quot;)){</span>
+<span class="fc" id="L73">                        return i;</span>
+                    }
+<span class="fc" id="L75">                    i++;</span>
+                }
+<span class="fc" id="L77">                ii++;</span>
+<span class="fc" id="L78">            }</span>
+<span class="nc" id="L79">            myReader.close();</span>
+<span class="nc" id="L80">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L81">            e.printStackTrace();</span>
+<span class="nc" id="L82">        }</span>
+<span class="nc" id="L83">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L84">              e.printStackTrace();</span>
+<span class="nc" id="L85">        } catch (IOException e) {</span>
+<span class="nc" id="L86">              e.printStackTrace();</span>
+<span class="nc" id="L87">        } catch (ParseException e) {</span>
+<span class="nc" id="L88">              e.printStackTrace();</span>
+<span class="nc" id="L89">        }</span>
+<span class="nc" id="L90">        return 0;</span>
+    }
+    public int gety(){
+<span class="fc" id="L93">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L95">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L96">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L97">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L98">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L100">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L101">            int ii=0;</span>
+<span class="pc bpc" id="L102" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L103">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L107">                int i=0;</span>
+<span class="fc bfc" id="L108" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;p&quot;)){</span>
+<span class="fc" id="L110">                        return ii;</span>
+                    }
+<span class="fc" id="L112">                    i++;</span>
+                }
+<span class="fc" id="L114">                ii++;</span>
+<span class="fc" id="L115">            }</span>
+<span class="nc" id="L116">            myReader.close();</span>
+<span class="nc" id="L117">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L118">            e.printStackTrace();</span>
+<span class="nc" id="L119">        }</span>
+<span class="nc" id="L120">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L121">              e.printStackTrace();</span>
+<span class="nc" id="L122">        } catch (IOException e) {</span>
+<span class="nc" id="L123">              e.printStackTrace();</span>
+<span class="nc" id="L124">        } catch (ParseException e) {</span>
+<span class="nc" id="L125">              e.printStackTrace();</span>
+<span class="nc" id="L126">        }</span>
+<span class="nc" id="L127">        return 0;</span>
+    }
+
+    public int getcy(){
+<span class="fc" id="L131">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L133">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L134">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L135">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L136">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L138">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L139">            int ii=0;</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L141">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L145">                int i=0;</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L147" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;c&quot;)){</span>
+<span class="fc" id="L148">                        return ii;</span>
+                    }
+<span class="fc" id="L150">                    i++;</span>
+                }
+<span class="fc" id="L152">                ii++;</span>
+<span class="fc" id="L153">            }</span>
+<span class="nc" id="L154">            myReader.close();</span>
+<span class="nc" id="L155">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L156">            e.printStackTrace();</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L159">              e.printStackTrace();</span>
+<span class="nc" id="L160">        } catch (IOException e) {</span>
+<span class="nc" id="L161">              e.printStackTrace();</span>
+<span class="nc" id="L162">        } catch (ParseException e) {</span>
+<span class="nc" id="L163">              e.printStackTrace();</span>
+<span class="nc" id="L164">        }</span>
+<span class="nc" id="L165">        return 0;</span>
+    }
+    public int getcx(){
+<span class="fc" id="L168">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L170">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L171">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L172">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L173">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L175">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L176">            int ii=0;</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L178">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L182">                int i=0;</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L184" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;c&quot;)){</span>
+<span class="fc" id="L185">                        return i;</span>
+                    }
+<span class="fc" id="L187">                    i++;</span>
+                }
+<span class="fc" id="L189">                ii++;</span>
+<span class="fc" id="L190">            }</span>
+<span class="nc" id="L191">            myReader.close();</span>
+<span class="nc" id="L192">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L193">            e.printStackTrace();</span>
+<span class="nc" id="L194">        }</span>
+<span class="nc" id="L195">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L196">              e.printStackTrace();</span>
+<span class="nc" id="L197">        } catch (IOException e) {</span>
+<span class="nc" id="L198">              e.printStackTrace();</span>
+<span class="nc" id="L199">        } catch (ParseException e) {</span>
+<span class="nc" id="L200">              e.printStackTrace();</span>
+<span class="nc" id="L201">        }</span>
+<span class="nc" id="L202">        return 0;</span>
+    }
+    public int getay(){
+<span class="fc" id="L205">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L207">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L208">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L209">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L210">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L212">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L213">            int ii=0;</span>
+<span class="pc bpc" id="L214" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L215">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L216" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L219">                int i=0;</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L221" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;a&quot;)){</span>
+<span class="fc" id="L222">                        return ii;</span>
+                    }
+<span class="fc" id="L224">                    i++;</span>
+                }
+<span class="fc" id="L226">                ii++;</span>
+<span class="fc" id="L227">            }</span>
+<span class="nc" id="L228">            myReader.close();</span>
+<span class="nc" id="L229">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L230">            e.printStackTrace();</span>
+<span class="nc" id="L231">        }</span>
+<span class="nc" id="L232">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L233">              e.printStackTrace();</span>
+<span class="nc" id="L234">        } catch (IOException e) {</span>
+<span class="nc" id="L235">              e.printStackTrace();</span>
+<span class="nc" id="L236">        } catch (ParseException e) {</span>
+<span class="nc" id="L237">              e.printStackTrace();</span>
+<span class="nc" id="L238">        }</span>
+<span class="nc" id="L239">        return 0;</span>
+    }
+    public int getax(){
+<span class="fc" id="L242">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L244">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L245">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L246">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L247">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L249">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L250">            int ii=0;</span>
+<span class="pc bpc" id="L251" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L252">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L253" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L256">                int i=0;</span>
+<span class="fc bfc" id="L257" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L258" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;a&quot;)){</span>
+<span class="fc" id="L259">                        return i;</span>
+                    }
+<span class="fc" id="L261">                    i++;</span>
+                }
+<span class="fc" id="L263">                ii++;</span>
+<span class="fc" id="L264">            }</span>
+<span class="nc" id="L265">            myReader.close();</span>
+<span class="nc" id="L266">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L267">            e.printStackTrace();</span>
+<span class="nc" id="L268">        }</span>
+<span class="nc" id="L269">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L270">              e.printStackTrace();</span>
+<span class="nc" id="L271">        } catch (IOException e) {</span>
+<span class="nc" id="L272">              e.printStackTrace();</span>
+<span class="nc" id="L273">        } catch (ParseException e) {</span>
+<span class="nc" id="L274">              e.printStackTrace();</span>
+<span class="nc" id="L275">        }</span>
+<span class="nc" id="L276">        return 0;</span>
+    }
+    public int getiy(){
+<span class="fc" id="L279">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L281">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L282">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L283">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L284">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L286">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L287">            int ii=0;</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L289">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L290" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L293">                int i=0;</span>
+<span class="fc bfc" id="L294" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L295" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;i&quot;)){</span>
+<span class="fc" id="L296">                        return ii;</span>
+                    }
+<span class="fc" id="L298">                    i++;</span>
+                }
+<span class="fc" id="L300">                ii++;</span>
+<span class="fc" id="L301">            }</span>
+<span class="nc" id="L302">            myReader.close();</span>
+<span class="nc" id="L303">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L304">            e.printStackTrace();</span>
+<span class="nc" id="L305">        }</span>
+<span class="nc" id="L306">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L307">              e.printStackTrace();</span>
+<span class="nc" id="L308">        } catch (IOException e) {</span>
+<span class="nc" id="L309">              e.printStackTrace();</span>
+<span class="nc" id="L310">        } catch (ParseException e) {</span>
+<span class="nc" id="L311">              e.printStackTrace();</span>
+<span class="nc" id="L312">        }</span>
+<span class="nc" id="L313">        return 0;</span>
+    }
+    public int getix(){
+<span class="fc" id="L316">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L318">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L319">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L320">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L321">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L323">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L324">            int ii=0;</span>
+<span class="pc bpc" id="L325" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L326">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L327" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L330">                int i=0;</span>
+<span class="fc bfc" id="L331" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L332" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;i&quot;)){</span>
+<span class="fc" id="L333">                        return i;</span>
+                    }
+<span class="fc" id="L335">                    i++;</span>
+                }
+<span class="fc" id="L337">                ii++;</span>
+<span class="fc" id="L338">            }</span>
+<span class="nc" id="L339">            myReader.close();</span>
+<span class="nc" id="L340">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L341">            e.printStackTrace();</span>
+<span class="nc" id="L342">        }</span>
+<span class="nc" id="L343">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L344">              e.printStackTrace();</span>
+<span class="nc" id="L345">        } catch (IOException e) {</span>
+<span class="nc" id="L346">              e.printStackTrace();</span>
+<span class="nc" id="L347">        } catch (ParseException e) {</span>
+<span class="nc" id="L348">              e.printStackTrace();</span>
+<span class="nc" id="L349">        }</span>
+<span class="nc" id="L350">        return 0;</span>
+    }
+    public int getwx(){
+<span class="fc" id="L353">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L355">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L356">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L357">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L358">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L360">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L361">            int ii=0;</span>
+<span class="pc bpc" id="L362" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L363">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L364" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L367">                int i=0;</span>
+<span class="fc bfc" id="L368" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L369" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;w&quot;)){</span>
+<span class="fc" id="L370">                        return i;</span>
+                    }
+<span class="fc" id="L372">                    i++;</span>
+                }
+<span class="fc" id="L374">                ii++;</span>
+<span class="fc" id="L375">            }</span>
+<span class="nc" id="L376">            myReader.close();</span>
+<span class="nc" id="L377">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L378">            e.printStackTrace();</span>
+<span class="nc" id="L379">        }</span>
+<span class="nc" id="L380">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L381">              e.printStackTrace();</span>
+<span class="nc" id="L382">        } catch (IOException e) {</span>
+<span class="nc" id="L383">              e.printStackTrace();</span>
+<span class="nc" id="L384">        } catch (ParseException e) {</span>
+<span class="nc" id="L385">              e.printStackTrace();</span>
+<span class="nc" id="L386">        }</span>
+<span class="nc" id="L387">        return 0;</span>
+    }
+    public int getwy(){
+<span class="fc" id="L390">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L392">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L393">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L394">              String map = (String) jsonObject.get(&quot;map&quot;);</span>
+<span class="fc" id="L395">              myObj = new File(map);</span>
+              try {
+<span class="fc" id="L397">            Scanner myReader = new Scanner(myObj);</span>
+<span class="fc" id="L398">            int ii=0;</span>
+<span class="pc bpc" id="L399" title="1 of 2 branches missed.">            while (myReader.hasNextLine()) {</span>
+<span class="fc" id="L400">                String data = myReader.nextLine();</span>
+<span class="pc bpc" id="L401" title="1 of 2 branches missed.">                if(data!=null){</span>
+
+                }
+<span class="fc" id="L404">                int i=0;</span>
+<span class="fc bfc" id="L405" title="All 2 branches covered.">                while(i&lt;data.length()){</span>
+<span class="fc bfc" id="L406" title="All 2 branches covered.">                    if(data.substring(i,i+1).equals(&quot;w&quot;)){</span>
+<span class="fc" id="L407">                        return ii;</span>
+                    }
+<span class="fc" id="L409">                    i++;</span>
+                }
+<span class="fc" id="L411">                ii++;</span>
+<span class="fc" id="L412">            }</span>
+<span class="nc" id="L413">            myReader.close();</span>
+<span class="nc" id="L414">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L415">            e.printStackTrace();</span>
+<span class="nc" id="L416">        }</span>
+<span class="nc" id="L417">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L418">              e.printStackTrace();</span>
+<span class="nc" id="L419">        } catch (IOException e) {</span>
+<span class="nc" id="L420">              e.printStackTrace();</span>
+<span class="nc" id="L421">        } catch (ParseException e) {</span>
+<span class="nc" id="L422">              e.printStackTrace();</span>
+<span class="nc" id="L423">        }</span>
+<span class="nc" id="L424">        return 0;</span>
+    }
+    public ArrayList&lt;String&gt; touch(Player player, ArrayList&lt;String&gt; maparray){
+<span class="nc bnc" id="L427" title="All 4 branches missed.">        if(player.getx()%16==0 &amp;&amp; player.gety()%16==0){</span>
+<span class="nc bnc" id="L428" title="All 4 branches missed.">            if(maparray.get(player.gety()/16).substring(player.getx()/16,player.getx()/16+1).equals(&quot;7&quot;)||maparray.get(player.gety()/16).substring(player.getx()/16,player.getx()/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L429">                maparray.set(player.gety()/16,maparray.get(player.gety()/16).substring(0,player.getx()/16)+&quot;0&quot;+maparray.get(player.gety()/16).substring(player.getx()/16+1));</span>
+            }
+        }
+<span class="nc" id="L432">        return maparray;</span>
+    }
+    public boolean touchghost(Player player,Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim){
+<span class="nc bnc" id="L435" title="All 6 branches missed.">        if(player.getx()&gt;=ambusher.getx()-1 &amp;&amp; player.getx()&lt;=ambusher.getx()+1 &amp;&amp; player.gety()==ambusher.gety()){</span>
+<span class="nc" id="L436">            player.reset();</span>
+<span class="nc" id="L437">            ambusher.reset();</span>
+<span class="nc" id="L438">            chaser.reset();</span>
+<span class="nc" id="L439">            ignorant.reset();</span>
+<span class="nc" id="L440">            whim.reset();</span>
+<span class="nc" id="L441">            return true;</span>
+<span class="nc bnc" id="L442" title="All 6 branches missed.">        }else if(player.getx()&gt;=chaser.getx()-1 &amp;&amp; player.getx()&lt;=chaser.getx()+1 &amp;&amp; player.gety()==chaser.gety()){</span>
+<span class="nc" id="L443">            player.reset();</span>
+<span class="nc" id="L444">            ambusher.reset();</span>
+<span class="nc" id="L445">            chaser.reset();</span>
+<span class="nc" id="L446">            ignorant.reset();</span>
+<span class="nc" id="L447">            whim.reset();</span>
+<span class="nc" id="L448">            return true;</span>
+<span class="nc bnc" id="L449" title="All 6 branches missed.">        }else if(player.getx()&gt;=ignorant.getx()-1 &amp;&amp; player.getx()&lt;=ignorant.getx()+1 &amp;&amp; player.gety()==ignorant.gety()){</span>
+<span class="nc" id="L450">            player.reset();</span>
+<span class="nc" id="L451">            ambusher.reset();</span>
+<span class="nc" id="L452">            chaser.reset();</span>
+<span class="nc" id="L453">            ignorant.reset();</span>
+<span class="nc" id="L454">            whim.reset();</span>
+<span class="nc" id="L455">            return true;</span>
+<span class="nc bnc" id="L456" title="All 6 branches missed.">        }else if(player.getx()&gt;=whim.getx()-1 &amp;&amp; player.getx()&lt;=whim.getx()+1 &amp;&amp; player.gety()==whim.gety()){</span>
+<span class="nc" id="L457">            player.reset();</span>
+<span class="nc" id="L458">            ambusher.reset();</span>
+<span class="nc" id="L459">            chaser.reset();</span>
+<span class="nc" id="L460">            ignorant.reset();</span>
+<span class="nc" id="L461">            whim.reset();</span>
+<span class="nc" id="L462">            return true;</span>
+<span class="nc bnc" id="L463" title="All 6 branches missed.">        }else if(player.getx()==ambusher.getx() &amp;&amp; player.gety()&gt;=ambusher.gety()-1&amp;&amp; player.gety()&lt;=ambusher.gety()+1){</span>
+<span class="nc" id="L464">            player.reset();</span>
+<span class="nc" id="L465">            ambusher.reset();</span>
+<span class="nc" id="L466">            chaser.reset();</span>
+<span class="nc" id="L467">            ignorant.reset();</span>
+<span class="nc" id="L468">            whim.reset();</span>
+<span class="nc" id="L469">            return true;</span>
+<span class="nc bnc" id="L470" title="All 6 branches missed.">        }else if(player.getx()==chaser.getx() &amp;&amp; player.gety()&gt;=chaser.gety()-1&amp;&amp; player.gety()&lt;=chaser.gety()+1){</span>
+<span class="nc" id="L471">            player.reset();</span>
+<span class="nc" id="L472">            ambusher.reset();</span>
+<span class="nc" id="L473">            chaser.reset();</span>
+<span class="nc" id="L474">            ignorant.reset();</span>
+<span class="nc" id="L475">            whim.reset();</span>
+<span class="nc" id="L476">            return true;</span>
+<span class="nc bnc" id="L477" title="All 6 branches missed.">        }else if(player.getx()==ignorant.getx() &amp;&amp; player.gety()&gt;=ignorant.gety()-1&amp;&amp; player.gety()&lt;=ignorant.gety()+1){</span>
+<span class="nc" id="L478">            player.reset();</span>
+<span class="nc" id="L479">            ambusher.reset();</span>
+<span class="nc" id="L480">            chaser.reset();</span>
+<span class="nc" id="L481">            ignorant.reset();</span>
+<span class="nc" id="L482">            whim.reset();</span>
+<span class="nc" id="L483">            return true;</span>
+<span class="nc bnc" id="L484" title="All 6 branches missed.">        }else if(player.getx()==whim.getx() &amp;&amp; player.gety()&gt;=whim.gety()-1&amp;&amp; player.gety()&lt;=whim.gety()+1){</span>
+<span class="nc" id="L485">            player.reset();</span>
+<span class="nc" id="L486">            ambusher.reset();</span>
+<span class="nc" id="L487">            chaser.reset();</span>
+<span class="nc" id="L488">            ignorant.reset();</span>
+<span class="nc" id="L489">            whim.reset();</span>
+<span class="nc" id="L490">            return true;</span>
+        }else{
+<span class="nc" id="L492">            return false;</span>
+        }
+    }
+    public void resett(Player player,Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim){
+<span class="nc" id="L496">        player.reset();</span>
+<span class="nc" id="L497">        ambusher.reset();</span>
+<span class="nc" id="L498">        chaser.reset();</span>
+<span class="nc" id="L499">        ignorant.reset();</span>
+<span class="nc" id="L500">        whim.reset();</span>
+<span class="nc" id="L501">    }</span>
+    public ArrayList&lt;String&gt; mapclean(Player player,Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim,ArrayList&lt;String&gt; maparray){
+<span class="nc" id="L503">        maparray.set(this.gety(),maparray.get(player.gety()/16).substring(0,player.getx()/16)+&quot;0&quot;+maparray.get(player.gety()/16).substring(player.getx()/16+1));</span>
+<span class="nc" id="L504">        maparray.set(this.getcy(),maparray.get(chaser.gety()/16).substring(0,chaser.getx()/16)+&quot;0&quot;+maparray.get(chaser.gety()/16).substring(chaser.getx()/16+1));</span>
+<span class="nc" id="L505">        maparray.set(this.getay(),maparray.get(ambusher.gety()/16).substring(0,ambusher.getx()/16)+&quot;0&quot;+maparray.get(ambusher.gety()/16).substring(ambusher.getx()/16+1));</span>
+<span class="nc" id="L506">        maparray.set(this.getiy(),maparray.get(ignorant.gety()/16).substring(0,ignorant.getx()/16)+&quot;0&quot;+maparray.get(ignorant.gety()/16).substring(ignorant.getx()/16+1));</span>
+<span class="nc" id="L507">        maparray.set(this.getwy(),maparray.get(whim.gety()/16).substring(0,whim.getx()/16)+&quot;0&quot;+maparray.get(whim.gety()/16).substring(whim.getx()/16+1));</span>
+<span class="nc" id="L508">        return maparray;</span>
+    }
+    public boolean calculate(ArrayList&lt;String&gt; maparray){
+<span class="nc" id="L511">        int i = 0;</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">        for(String s: maparray){</span>
+<span class="nc" id="L513">            int ii = 0;</span>
+<span class="nc bnc" id="L514" title="All 2 branches missed.">            while(ii&lt;28){</span>
+<span class="nc bnc" id="L515" title="All 4 branches missed.">                if(s.substring(ii,ii+1).equals(&quot;7&quot;)||s.substring(ii,ii+1).equals(&quot;8&quot;)){i+=1;}</span>
+<span class="nc" id="L516">                ii+=1;;</span>
+            }
+<span class="nc" id="L518">        }</span>
+<span class="nc bnc" id="L519" title="All 2 branches missed.">        if(i==0){return true;}</span>
+<span class="nc" id="L520">        else{return false;}</span>
+    }
+    public void gmove(Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim,ArrayList&lt;String&gt; maparray,int x,  int d , Player player){
+<span class="nc bnc" id="L523" title="All 2 branches missed.">        if(chaser.die){</span>
+<span class="nc" id="L524">            chaser.setnimage();</span>
+<span class="nc" id="L525">            chaser.move(player,getscattertime().get(2), getscattertime().get(3), x,maparray);</span>
+        }
+<span class="nc bnc" id="L527" title="All 2 branches missed.">        if(ambusher.die){</span>
+<span class="nc" id="L528">            ambusher.setnimage();</span>
+<span class="nc" id="L529">            ambusher.move(player,getscattertime().get(0), getscattertime().get(1), x,maparray,d);</span>
+        }
+<span class="nc bnc" id="L531" title="All 2 branches missed.">        if(ignorant.die){</span>
+<span class="nc" id="L532">            ignorant.setnimage();</span>
+<span class="nc" id="L533">            ignorant.move(player,getscattertime().get(4), getscattertime().get(5), x,maparray,d);</span>
+        }
+<span class="nc bnc" id="L535" title="All 2 branches missed.">        if(whim.die){</span>
+<span class="nc" id="L536">            whim.setnimage();</span>
+<span class="nc" id="L537">            whim.move(player,getscattertime().get(6), getscattertime().get(7), x,maparray,d,chaser);</span>
+        }
+<span class="nc" id="L539">    }</span>
+    public void gfmove(Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim,ArrayList&lt;String&gt; maparray,int x,  int d , Player player){
+<span class="nc bnc" id="L541" title="All 2 branches missed.">        if(chaser.die){</span>
+<span class="nc" id="L542">            chaser.setfimage();</span>
+<span class="nc" id="L543">            chaser.f(player,maparray);</span>
+        }
+
+
+<span class="nc bnc" id="L547" title="All 2 branches missed.">        if(ambusher.die){</span>
+<span class="nc" id="L548">            ambusher.setfimage();</span>
+<span class="nc" id="L549">            ambusher.f(player,maparray);</span>
+        }
+<span class="nc bnc" id="L551" title="All 2 branches missed.">        if(ignorant.die){</span>
+<span class="nc" id="L552">            ignorant.setfimage();</span>
+<span class="nc" id="L553">            ignorant.f(player,maparray);</span>
+        }
+
+<span class="nc bnc" id="L556" title="All 2 branches missed.">       if(whim.die){</span>
+<span class="nc" id="L557">            whim.setfimage();</span>
+<span class="nc" id="L558">            whim.f(player,maparray);</span>
+        }
+
+<span class="nc" id="L561">    }</span>
+    public int f(Player player, ArrayList&lt;String&gt; maparray,int tt){
+<span class="nc bnc" id="L563" title="All 4 branches missed.">        if(player.getx()%16==0 &amp;&amp; player.gety()%16==0){</span>
+<span class="nc bnc" id="L564" title="All 2 branches missed.">            if(maparray.get(player.gety()/16).substring(player.getx()/16,player.getx()/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L565">                return 600;</span>
+<span class="nc" id="L566">            }else{return tt;}</span>
+<span class="nc" id="L567">        }else{return tt;}</span>
+    }
+    public void touchfghost(Player player,Ambusher ambusher,Chaser chaser,Ignorant ignorant,Whim whim){
+<span class="nc bnc" id="L570" title="All 6 branches missed.">        if(player.getx()&gt;=ambusher.getx()-1 &amp;&amp; player.getx()&lt;=ambusher.getx()+1 &amp;&amp; player.gety()==ambusher.gety()){</span>
+<span class="nc" id="L571">            ambusher.die=false;</span>
+<span class="nc" id="L572">            ambusher.setx(0);</span>
+<span class="nc" id="L573">            ambusher.sety(0);</span>
+<span class="nc bnc" id="L574" title="All 6 branches missed.">        }else if(player.getx()&gt;=chaser.getx()-1 &amp;&amp; player.getx()&lt;=chaser.getx()+1 &amp;&amp; player.gety()==chaser.gety()){</span>
+<span class="nc" id="L575">            chaser.die=false;</span>
+<span class="nc" id="L576">            chaser.setx(0);</span>
+<span class="nc" id="L577">            chaser.sety(0);</span>
+<span class="nc bnc" id="L578" title="All 6 branches missed.">        }else if(player.getx()&gt;=ignorant.getx()-1 &amp;&amp; player.getx()&lt;=ignorant.getx()+1 &amp;&amp; player.gety()==ignorant.gety()){</span>
+<span class="nc" id="L579">            ignorant.die=false;</span>
+<span class="nc" id="L580">            ignorant.setx(0);</span>
+<span class="nc" id="L581">            ignorant.sety(0);</span>
+<span class="nc bnc" id="L582" title="All 6 branches missed.">        }else if(player.getx()&gt;=whim.getx()-1 &amp;&amp; player.getx()&lt;=whim.getx()+1 &amp;&amp; player.gety()==whim.gety()){</span>
+<span class="nc" id="L583">            whim.die=false;</span>
+<span class="nc" id="L584">            whim.setx(0);</span>
+<span class="nc" id="L585">            whim.sety(0);</span>
+<span class="nc bnc" id="L586" title="All 6 branches missed.">        }else if(player.getx()==ambusher.getx() &amp;&amp; player.gety()&gt;=ambusher.gety()-1&amp;&amp; player.gety()&lt;=ambusher.gety()+1){</span>
+<span class="nc" id="L587">            ambusher.die=false;</span>
+<span class="nc" id="L588">            ambusher.setx(0);</span>
+<span class="nc" id="L589">            ambusher.sety(0);</span>
+<span class="nc bnc" id="L590" title="All 6 branches missed.">        }else if(player.getx()==chaser.getx() &amp;&amp; player.gety()&gt;=chaser.gety()-1&amp;&amp; player.gety()&lt;=chaser.gety()+1){</span>
+<span class="nc" id="L591">            chaser.die=false;</span>
+<span class="nc" id="L592">            chaser.setx(0);</span>
+<span class="nc" id="L593">            chaser.sety(0);</span>
+<span class="nc bnc" id="L594" title="All 6 branches missed.">        }else if(player.getx()==ignorant.getx() &amp;&amp; player.gety()&gt;=ignorant.gety()-1&amp;&amp; player.gety()&lt;=ignorant.gety()+1){</span>
+<span class="nc" id="L595">            ignorant.die=false;</span>
+<span class="nc" id="L596">            ignorant.setx(0);</span>
+<span class="nc" id="L597">            ignorant.sety(0);</span>
+<span class="nc bnc" id="L598" title="All 6 branches missed.">        }else if(player.getx()==whim.getx() &amp;&amp; player.gety()&gt;=whim.gety()-1&amp;&amp; player.gety()&lt;=whim.gety()+1){</span>
+<span class="nc" id="L599">            whim.die=false;</span>
+<span class="nc" id="L600">            whim.setx(0);</span>
+<span class="nc" id="L601">            whim.sety(0);</span>
+        }
+<span class="nc" id="L603">    }</span>
+    public ArrayList&lt;Integer&gt; getscattertime(){
+<span class="fc" id="L605">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L607">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L608">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L609">              ArrayList&lt;Long&gt; map = (ArrayList&lt;Long&gt;) jsonObject.get(&quot;modeLengths&quot;);</span>
+<span class="fc" id="L610">              ArrayList&lt;Integer&gt; mapa = new ArrayList&lt;Integer&gt;();</span>
+<span class="fc bfc" id="L611" title="All 2 branches covered.">              for(long a : map){</span>
+<span class="fc" id="L612">                  mapa.add((int) a);</span>
+<span class="fc" id="L613">              }</span>
+<span class="fc" id="L614">              return mapa;</span>
+
+<span class="nc" id="L616">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L617">              e.printStackTrace();</span>
+<span class="nc" id="L618">        } catch (IOException e) {</span>
+<span class="nc" id="L619">              e.printStackTrace();</span>
+<span class="nc" id="L620">        } catch (ParseException e) {</span>
+<span class="nc" id="L621">              e.printStackTrace();</span>
+<span class="nc" id="L622">        }</span>
+<span class="nc" id="L623">        return null;</span>
+    }
+    public int livestime(){
+<span class="nc" id="L626">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="nc" id="L628">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="nc" id="L629">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="nc" id="L630">              long map = (long) jsonObject.get(&quot;lives&quot;);</span>
+<span class="nc" id="L631">              int mapa = (int) map;</span>
+<span class="nc" id="L632">              return mapa;</span>
+
+<span class="nc" id="L634">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L635">              e.printStackTrace();</span>
+<span class="nc" id="L636">        } catch (IOException e) {</span>
+<span class="nc" id="L637">              e.printStackTrace();</span>
+<span class="nc" id="L638">        } catch (ParseException e) {</span>
+<span class="nc" id="L639">              e.printStackTrace();</span>
+<span class="nc" id="L640">        }</span>
+<span class="nc" id="L641">        return 0;</span>
+    }
+    public int speedstime(){
+<span class="fc" id="L644">        JSONParser parser = new JSONParser();</span>
+        try {
+<span class="fc" id="L646">              Object obj = parser.parse(new FileReader(&quot;config.json&quot;));</span>
+<span class="fc" id="L647">              JSONObject jsonObject = (JSONObject) obj;</span>
+<span class="fc" id="L648">              long map = (long) jsonObject.get(&quot;speed&quot;);</span>
+<span class="fc" id="L649">              int mapa = (int) map;</span>
+<span class="fc" id="L650">              return mapa;</span>
+
+<span class="nc" id="L652">        } catch (FileNotFoundException e) {</span>
+<span class="nc" id="L653">              e.printStackTrace();</span>
+<span class="nc" id="L654">        } catch (IOException e) {</span>
+<span class="nc" id="L655">              e.printStackTrace();</span>
+<span class="nc" id="L656">        } catch (ParseException e) {</span>
+<span class="nc" id="L657">              e.printStackTrace();</span>
+<span class="nc" id="L658">        }</span>
+<span class="nc" id="L659">        return 0;</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

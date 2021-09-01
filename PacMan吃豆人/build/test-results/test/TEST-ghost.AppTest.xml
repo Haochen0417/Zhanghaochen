@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ghost.AppTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-11-21T17:46:45" hostname="zhanghaochens-MacBook-Pro.local" time="0.123">
+  <properties/>
+  <testcase name="simpleTest()" classname="ghost.AppTest" time="0.123"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

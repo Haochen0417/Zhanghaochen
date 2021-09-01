@@ -1,0 +1,317 @@
+<div style="display:inline-block; width:1800px">
+
+    <div class="account-item" style="display:inline-block">
+        <div class="button"><a class="button-font">Details</a></div>        
+        <div class="button"><a class="button-font">Safety</a></div>        
+        <div class="button"><a class="button-font">InfoReset</a></div> 
+        <div class="button"><a class="button-font" href="/logout">Logout</a></div>
+        <div class="admin-button" style="display: none"><a class="button-font">Admin</a></div>
+    </div>
+
+    <div class="vertical-line"></div>
+
+    <div style="display:inline-block; width:1200px; margin-left:80px; vertical-align:top; margin-top:40px">
+
+        <div class="admin-content" style="display:none">
+
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <form action="/mute" method="post">
+                    <p style="display:inline-block">Enter the email will be muted:</p>&nbsp;&nbsp;
+                    <input required="required" name="email" type="text" style="display:inline-block; height: 30px; vertical-align: middle;">
+                    <input style="height: 30px;" value="Confirm" type="submit"/>
+                </form>
+            </div>
+
+
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <form action="/unmute" method="post">
+                    <p style="display:inline-block">Enter the email will be unmuted:</p>&nbsp;&nbsp;
+                    <input required="required" name="email" type="text" style="display:inline-block; height: 30px; vertical-align: middle;">
+                    <input style="height: 30px;" value="Confirm" type="submit"/>
+                </form>
+            </div>
+
+
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <form action="/promote" method="post">
+                    <p style="display:inline-block">Enter the email will be promoted:</p>&nbsp;&nbsp;
+                    <input required="required" name="email" type="text" style="display:inline-block; height: 30px; vertical-align: middle;">
+                    <input style="height: 30px;" value="Confirm" type="submit"/>
+                </form>
+            </div>
+
+
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <form action="/delete" method="post">
+                    <p style="display:inline-block">Enter the email will be deleted:</p>&nbsp;&nbsp;
+                    <input required="required" name="email" type="text" style="display:inline-block; height: 30px; vertical-align: middle;">
+                    <input style="height: 30px;" value="Confirm" type="submit"/>
+                </form>
+            </div>
+
+
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <p style="display:inline-block">Active Users:</p>
+                ${activeusers}
+            </div>
+
+
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <p style="display:inline-block">Muted Users:</p>
+                ${mutedusers}
+            </div>            
+            
+            <div style="font-size: 20px; margin-left:200px; font-size:30px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <p style="display:inline-block">Admin Users:</p>
+                ${adminusers}
+            </div>
+
+        </div>
+
+
+        <div class="details-content" style="display:inline-block">
+            <div style="margin-left: 200px; font-size:60px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">Details</div>    
+            <div style="margin-left: 200px; font-size:40px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <p id='name'>Name: </p> 
+                <p id='email'>Email: </p> 
+                <p id='gender'>Gender: </p> 
+                <p id='bio'>Bio: </p> 
+                <p id='contact'>Contact: </p> 
+            </div>
+        </div>
+
+ 
+        <div class="safety-content" style="display:none">
+            <div style="margin-left: 200px; font-size:60px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">Safety</div>    
+            <div style="margin-left: 200px; font-size:40px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <div>
+                    <p>Reset Password</p> 
+                    <div style="font-size: 20px; font-weight:initial; margin-top:-35px">
+                        <form action="/changepassword" method="post">
+                            <p style="display:inline-block">Original Password:</p>&nbsp;&nbsp;<input name="oldpassword" type="password" style="display:inline-block"><br>
+                            <p style="display:inline-block; margin-top: -20px">New Password:</p>&nbsp;&nbsp;<input name="newpassword" type="password" style="display:inline-block"> <br>
+                            <input value="Confirm" type="submit"/>
+                        </form> 
+                    </div>
+                </div>   
+                <div>
+                    <p>Change Safety Q&A</p>
+                    <div style="font-size: 20px; font-weight:initial; margin-top:-35px">
+                        <form action="/changesafety" method="post">
+                            <p style="display:inline-block">New Safety Question:</p>&nbsp;&nbsp;
+                            <select name="question">
+                                <option value="book">What Is your favorite book?</option>
+                                <option value="road">What is the name of the road you grew up on?</option>
+                                <option value="pet">What was the name of your first/current/favorite pet?</option>
+                                <option value="school">Where did you go to high school/college?</option>
+                            </select>
+                            <br>
+                            <p style="display:inline-block; margin-top: -20px">New Safety Answer:</p>&nbsp;&nbsp;<input name="answer" style="display:inline-block"><br>
+                            <input value="Confirm" type="submit"/>
+                        </form> 
+                    </div>
+                </div>  
+            </div> 
+        </div>
+
+
+        <div class="setting-content" style="display:none">
+            <div style="margin-left: 200px; font-size:60px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">InfoReset</div>   
+            <div style="margin-left: 200px; font-size:40px; font-family:'Times New Roman', Times, serif;
+            font-weight:bold">
+                <div>
+                    <p>Reset Username</p> 
+                    <div style="font-size: 20px; font-weight:initial; margin-top:-35px">
+                        <form action="/changename" method="post">
+                            <p style="display:inline-block">New Username:</p>&nbsp;&nbsp;<input name="newname" type="text" style="display:inline-block">
+                            <input value="Confirm" type="submit"/>
+                        </form> 
+                    </div>
+                </div>  
+
+                <div>
+                    <p>Reset Gender</p> 
+                    <div style="font-size: 20px; font-weight:initial; margin-top:-35px">
+                        <form action="/changegender" method="post">
+                            <p style="display:inline-block">Choose Your Gender:</p>
+                            <select name="newgender">
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Secret">Secret</option>
+                            </select>
+                            <input value="Confirm" type="submit"/>
+                        </form> 
+                    </div>
+                </div>  
+
+                <div>
+                    <p>Reset Bio</p> 
+                    <div style="font-size: 20px; font-weight:initial; margin-top:-35px">
+                        <form action="/changebio" method="post">
+                            <p style="display:inline-block">New Bio:</p>&nbsp;&nbsp;<input name="newbio" type="text" style="display:inline-block">
+                            <input value="Confirm" type="submit"/>
+                        </form> 
+                    </div>
+                </div>  
+
+                <div>
+                    <p>Reset Contact</p> 
+                    <div style="font-size: 20px; font-weight:initial; margin-top:-35px">
+                        <form action="/changecontact" method="post">
+                            <p style="display:inline-block">New Contact:</p>&nbsp;&nbsp;<input name="newcontact" type="text" style="display:inline-block">
+                            <input value="Confirm" type="submit"/>
+                        </form> 
+                    </div>
+                </div>  
+
+            </div> 
+        </div>
+        
+
+    </div>
+</div>
+
+<style>
+
+    .admin-command{
+        font-size: 20px; 
+        margin-left:200px; 
+        font-size:30px; 
+        font-family:'Times New Roman', Times, serif;
+        font-weight:bold
+    }
+
+    .account-item{
+        height:300px;
+        width:80px;
+    }
+
+    .button{
+        line-height: 80px;
+        margin-top: 40px;
+        margin-left: 60px;
+    }
+
+    .admin-button{
+        line-height: 80px;
+        margin-top: 60px;
+        margin-left: 60px;
+    }
+
+    .button-font{
+        font-size: 50px;
+        font-family:'Times New Roman', Times, serif;
+        font-weight: 900;
+    }
+
+    .vertical-line{
+ 	background:#ABD7DC;
+	width:1px;
+	height:800px;
+	position:relative;
+	left:300px;
+	float:left;
+    }
+
+    .horizontal-line{
+ 	background:#ABD7DC;
+	width:800px;
+	height:1px;
+	position:relative;
+	left:300px;
+	float:left;
+    }
+
+</style>
+
+<script>
+
+    function init(){
+        $.ajax({
+            url:"/check_user_details",
+            type: "GET",
+            async: true,
+            success: function(result){
+                $("#name").html("Name: " + result.name);
+                $("#email").html("Email: " + result.email);
+                $("#gender").html("Gender: " + result.gender);
+                $("#bio").html("Bio: " + result.bio);
+                $("#contact").html("Contact: " + result.contact);
+            }
+        })
+    }
+
+</script>
+
+<script>
+
+    function isAdmin(){
+        $.ajax({
+            url:"/check_admin_right",
+            type: "GET",
+            async: true,
+            success: function(result){
+                if(result==1){
+                    $(".admin-button").css("display", "inline-block")
+                }
+            }
+        })
+    }
+
+</script>
+
+<script>
+
+    $(document).ready(function(){
+        init();
+        isAdmin();
+    });
+
+</script>
+
+<script>
+    $(".button-font").on("click", function(){
+
+       if($(this).html()=="Details"){
+            $(".details-content").css("display","inline-block")
+            $(".safety-content").css("display","none")
+            $(".setting-content").css("display","none")
+            $(".admin-content").css("display","none")
+       }
+
+       else if($(this).html()=="Safety"){
+            $(".details-content").css("display","none")
+            $(".safety-content").css("display","inline-block")
+            $(".setting-content").css("display","none")
+            $(".admin-content").css("display","none")
+       }
+
+       else if($(this).html()=="InfoReset"){
+            $(".details-content").css("display","none")
+            $(".safety-content").css("display","none")
+            $(".setting-content").css("display","inline-block")
+            $(".admin-content").css("display","none")
+       }
+
+       else if($(this).html()=="Admin"){
+            $(".details-content").css("display","none")
+            $(".safety-content").css("display","none")
+            $(".setting-content").css("display","none")
+            $(".admin-content").css("display","inline-block")
+
+       }
+       
+    })
+</script>

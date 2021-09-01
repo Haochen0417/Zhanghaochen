@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Milestone</a> &gt; <a href="index.source.html" class="el_package">ghost</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package ghost;
+import processing.core.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.io.*;
+import java.lang.*;
+import java.lang.Object;
+public class App extends PApplet {
+    public static final int WIDTH = 448;
+    public static final int HEIGHT = 576;
+    private Player player;
+    private Chaser chaser;
+    private Ambusher ambusher;
+    private Ignorant ignorant;
+    private Whim whim;
+    private File myObj;
+    private Manager mm;
+    private int x;
+    private int xw;
+    private int t;
+    private int d;
+    private int ed;
+    private int live;
+    private int ft;
+    private PFont font;
+    private ArrayList&lt;String&gt; maparray;
+<span class="fc" id="L28">    public App() {</span>
+<span class="fc" id="L29">        x=0;</span>
+<span class="fc" id="L30">        t=0;</span>
+<span class="fc" id="L31">        d=0;</span>
+
+<span class="fc" id="L33">        int xw=0;</span>
+<span class="fc" id="L34">        ft=0;</span>
+<span class="fc" id="L35">        maparray=new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L36">    }</span>
+    public void setup() {
+<span class="nc" id="L38">        frameRate (60);</span>
+<span class="nc" id="L39">        font=createFont(&quot;src/main/resources/PressStart2P-Regular.tff&quot;,50);</span>
+<span class="nc" id="L40">        mm = new Manager();</span>
+<span class="nc" id="L41">        maparray=mm.readjson();</span>
+<span class="nc" id="L42">        live=mm.livestime();</span>
+<span class="nc" id="L43">        this.player=new Player(16*mm.getx(),16*mm.gety(),mm.speedstime(),mm.speedstime(),this.loadImage(&quot;src/main/resources/playerClosed.png&quot;),this.loadImage(&quot;src/main/resources/downLeft.png&quot;),this.loadImage(&quot;src/main/resources/downRight.png&quot;),this.loadImage(&quot;src/main/resources/fruit.png&quot;),this.loadImage(&quot;src/main/resources/vertical.png&quot;),this.loadImage(&quot;src/main/resources/upRight.png&quot;),this.loadImage(&quot;src/main/resources/upLeft.png&quot;),this.loadImage(&quot;src/main/resources/chaser.png&quot;),this.loadImage(&quot;src/main/resources/horizontal.png&quot;),this.loadImage(&quot;src/main/resources/playerClosed.png&quot;),this.loadImage(&quot;src/main/resources/playerUp.png&quot;),this.loadImage(&quot;src/main/resources/playerLeft.png&quot;),this.loadImage(&quot;src/main/resources/playerDown.png&quot;),this.loadImage(&quot;src/main/resources/playerRight.png&quot;),this.loadImage(&quot;src/main/resources/superfruit.png&quot;));</span>
+<span class="nc" id="L44">        this.chaser=new Chaser(16*mm.getcx(),16*mm.getcy(),mm.speedstime(),mm.speedstime(),this.loadImage(&quot;src/main/resources/chaser.png&quot;),this.loadImage(&quot;src/main/resources/chaser.png&quot;),this.loadImage(&quot;src/main/resources/frightened.png&quot;));</span>
+<span class="nc" id="L45">        this.ambusher=new Ambusher(16*mm.getax(),16*mm.getay(),mm.speedstime(),mm.speedstime(),this.loadImage(&quot;src/main/resources/ambusher.png&quot;),this.loadImage(&quot;src/main/resources/ambusher.png&quot;),this.loadImage(&quot;src/main/resources/frightened.png&quot;));</span>
+<span class="nc" id="L46">        this.ignorant=new Ignorant(16*mm.getix(),16*mm.getiy(),mm.speedstime(),mm.speedstime(),this.loadImage(&quot;src/main/resources/ignorant.png&quot;),this.loadImage(&quot;src/main/resources/ignorant.png&quot;),this.loadImage(&quot;src/main/resources/frightened.png&quot;));</span>
+<span class="nc" id="L47">        this.whim=new Whim(16*mm.getwx(),16*mm.getwy(),mm.speedstime(),mm.speedstime(),this.loadImage(&quot;src/main/resources/whim.png&quot;),this.loadImage(&quot;src/main/resources/whim.png&quot;),this.loadImage(&quot;src/main/resources/frightened.png&quot;));</span>
+<span class="nc" id="L48">        maparray=mm.mapclean(player, ambusher, chaser, ignorant, whim,maparray);</span>
+<span class="nc" id="L49">    }</span>
+<span class="nc" id="L50">    public void settings() {size(WIDTH, HEIGHT);}</span>
+    public void draw() {
+<span class="nc" id="L52">        background(0,0,0);</span>
+<span class="nc bnc" id="L53" title="All 4 branches missed.">        if(live!=0 &amp;&amp; !mm.calculate(maparray)){</span>
+<span class="nc" id="L54">            int ii=0;</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            while(ii&lt;maparray.size()){</span>
+<span class="nc" id="L56">                int i=0;</span>
+<span class="nc" id="L57">                String data=maparray.get(ii);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                while(i&lt;data.length()){</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">                    if(data.substring(i,i+1).equals(&quot;0&quot;)){</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;1&quot;)){this.image(this.player.horizontal,16*i,16*ii);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;2&quot;)){this.image(this.player.vertical,16*i,16*ii);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;3&quot;)){this.image(this.player.upleft,16*i,16*ii);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;4&quot;)){this.image(this.player.upright,16*i,16*ii);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;5&quot;)){this.image(this.player.downleft,16*i,16*ii);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;6&quot;)){this.image(this.player.downright,16*i,16*ii);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;7&quot;)){this.image(this.player.fruit,16*i,16*ii);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                    }else if(data.substring(i,i+1).equals(&quot;8&quot;)){this.image(this.player.superfruit,16*i,16*ii);</span>
+<span class="nc" id="L68">                    }i++;</span>
+<span class="nc" id="L69">                }ii++;}</span>
+<span class="nc" id="L70">            d=this.player.direct(ed,d,maparray);</span>
+<span class="nc" id="L71">            this.player.move(d,maparray);</span>
+<span class="nc" id="L72">            this.player.playerchange(x,d);</span>
+<span class="nc" id="L73">            this.player.draw(this);</span>
+<span class="nc" id="L74">            ft=mm.f(this.player,maparray,ft);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if(ft&gt;0){mm.gfmove( ambusher, chaser, ignorant, whim, maparray, x , d, player);}</span>
+<span class="nc" id="L76">            else{mm.gmove( ambusher, chaser, ignorant, whim, maparray, x , d, player);}</span>
+<span class="nc" id="L77">            ft-=1;</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if(chaser.die){this.chaser.draw(this);}</span>
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if(ambusher.die){this.ambusher.draw(this);}</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if(ignorant.die){this.ignorant.draw(this);}</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">            if(whim.die){this.whim.draw(this);}</span>
+<span class="nc" id="L82">            x++;</span>
+<span class="nc" id="L83">            mm.touch(this.player,maparray);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">            if(ft&gt;0){mm.touchfghost(player, ambusher, chaser, ignorant, whim);}</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">            else{if(mm.touchghost(player, ambusher, chaser, ignorant, whim)){d=0;x=0;ed=0;live-=1;ft=0;}}</span>
+<span class="nc" id="L86">            int nn =0;</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">            while(nn&lt;live){this.image(this.loadImage(&quot;src/main/resources/playerRight.png&quot;),24*nn,544);nn+=1;}</span>
+<span class="nc bnc" id="L88" title="All 4 branches missed.">        }else if(live!=0 &amp;&amp; mm.calculate(maparray)){textFont(font); text(&quot;YOU WIN&quot;,120,256);xw++;</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">                if(xw==600){mm.resett(player, ambusher, chaser, ignorant, whim);maparray.clear();maparray=mm.readjson();mm.mapclean(player,ambusher,chaser,ignorant,whim,maparray);x=0;ed=0;live=mm.livestime();xw=0;d=0;ft=0;}</span>
+<span class="nc" id="L90">        }else{this.image(this.loadImage(&quot;src/main/resources/gameover - Copy.png&quot;),170,256);</span>
+<span class="nc" id="L91">            x++;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if(x==600){maparray.clear();maparray=mm.readjson();mm.mapclean(player,ambusher,chaser,ignorant,whim,maparray);x=0;ed=0;live=mm.livestime();ft=0;}}}</span>
+<span class="nc" id="L93">    public void keyPressed() {this.ed=keyCode;}</span>
+<span class="nc" id="L94">    public static void main(String[] args) {PApplet.main(&quot;ghost.App&quot;);}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

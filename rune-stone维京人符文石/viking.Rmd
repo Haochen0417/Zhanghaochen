@@ -1,0 +1,121 @@
+---
+title: "Viking Rune-stone"
+author: "Haochen Zhang 490169971 Shibo 490618963 Zixuan Zhou"
+subtitle: "Project 2"
+date: "University of Sydney | Unit of Study | 27th Sep 2019"
+output:
+  html_document:
+    fig_caption: yes
+    number_sections: yes
+    self_contained: yes
+    theme: flatly
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    code_folding: hide
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/',
+                      echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+```{r}
+library(readr)
+master <- read_csv("/Users/zhanghaochen/Downloads/data/master.csv")
+library(readr)
+master_church <- read_csv("/Users/zhanghaochen/Downloads/data/未命名文件夹/master_church.csv")
+library(readr)
+master_churchyard <- read_csv("/Users/zhanghaochen/Downloads/data/未命名文件夹/master_churchyard.csv")
+```
+
+<br>
+
+# Executive Summary
+- Our research focus on analyzing the the found region of the rune-stone in different time period, and according these data to discover some history. We know that the Viking culture came to an end after been strongly influenced by the Christianity. The spread of Christianity started throughout the Roman Empire after the death of Jesus. We don’t know the exactly date when it was brought to Viking, but we knew that this spread was a movement from the South Norway to North Norway according to the distribution of the rune-stone. 
+
+- The main discoveries are:
+(1)The spread was a movement from the South Norway to North Norway. 
+(2)Pr4 is special period, the count of stone in church and churchyard are far more than others. Implying some religon activities could be happen in Pr4. 
+(3)The change of count of number in church /churchyard in different period could means some Religious policy changed.
+
+
+<br>
+
+# Full Report
+
+## Initial Data Analysis (IDA)
+
+By investigating the rune-stone, we found out that the crosses had already existed on it before 800 AD, a period was concerned by most of people to be the main time of spreading the Christianity to Viking. As we know, Vikings were aggressive nation. They believed the Myth of North Europe which advocated heroism and belligerent spirit. The God in Christianity was called “the victorious god” when it was first introduced to Viking. Since the Christianity spread from south to north, the Viking in north started to curve rune-stones which contained the symbol of the Christianity, the cross. We can see in this graph that the trendy show that the distribution of rune-stone with cross was moving to north.
+
+```{r}
+
+p_select=master %>%
+select(Signum,KoordinaterX,KoordinaterY,Stilgruppering)
+p_select_1=p_select %>%
+filter(Stilgruppering=='RAK' | Stilgruppering=='Pr2' |Stilgruppering=='Pr3' |Stilgruppering=='Pr4'|Stilgruppering=='Pr5'|Stilgruppering=='FP'|Stilgruppering=='Pr1'|Stilgruppering=='Pr1 - Pr2?'|Stilgruppering=='Pr2 - Pr3?'|Stilgruppering=='Pr3 - Pr4?'|Stilgruppering=='Pr4 - Pr5?')
+p_plot=ggplot(p_select_1,aes(KoordinaterX,KoordinaterY))
+p_plot+geom_point(aes(color=Stilgruppering))
+
+
+```
+
+This ggplot is a count of the number of occurrences of each symbol. The cross is a symbol of Christianity, so by counting the number of occurrences of different crosses, some unexpected results may be obtained. Through statistics, it can be clearly seen that these A1,B1,D1,F3  appear most frequently.We find that these four symbols are the most commonly used symbols of Christianity. So Christianity could not been greatly affected by the Vikin culture.
+
+
+By analyzing cross data and Old-Nurse, we found the stone with cross usually have the meaning of memory. It results that rune-stone maybe have relationship with church and churchyard.
+
+
+![avatar](/Users/zhanghaochen/Downloads/data/未命名文件夹/image.png)
+![avatar](/Users/zhanghaochen/Downloads/data/未命名文件夹/image1.png)
+```{r,echo=FALSE}
+
+rune_stone2=data.frame("sum"=c(452,76,83,227,51,6,11,27,33,627,195,147,10,109,16,11,36,13,186,196,159,238,146,797,36,57,63,30,7,33,28,190,43,54,65,85,19,57,9,37,62,52,913,3,1,12),"name"=c("A1","A2","A3","A4","A5","A6","A7","A8","A9","B1","B2","B3","B4","C1","C2","C3","C4","C5","C6","C7","C8","C9","C10","D1","D2","D3","D4","D5","D6","E1","E2","E3","E4","E5","E6","E7","E8","E9","E10","E11","F1","F2","F3","F4","G1","G2"),stringsAsFactors = FALSE)
+p_sum=ggplot(rune_stone2,aes(name,sum))
+p_sum+geom_point(aes(color=name))+geom_smooth()
+
+
+```
+
+
+In 1060 to 1100, the rune-stone leaped to an extremely high value. By searching for the history of the Christianity, we discovered that in 1060, Svend Estridsen (Sweyn II of Denmark) organizes the Danish church. Denmark is geographically close to Norway, so it might intensified the spread of the Christianity to Norway. There are also another reasons to concern about. First, the closer a stone is to the present, the less damage it has. There might had many rune-stone in the past, but they were destroyed by wars or other factors. Moreover, some of the rune-stone are not completely. The missing parts might contain the crosses. It interfered the calculate of the number of crosses on the rune-stone.
+Another discovery is that there is almost no rune-stone in churchyard and church in the FP period. this could be a evidence that the spread of Christianity probably occurred during this period.
+```{r}
+p_select_church= master_church %>%
+select(Plats,KoordinaterX,KoordinaterY,Stilgruppering)
+p_select_church1=p_select_church %>%
+filter(Stilgruppering=='RAK' | Stilgruppering=='Pr2' |Stilgruppering=='Pr3' |Stilgruppering=='Pr4'|Stilgruppering=='Pr5'|Stilgruppering=='FP'|Stilgruppering=='Pr1') 
+count_church=table(p_select_church1$Stilgruppering)
+barplot(count_church, main="stone in church",xlab="period",col=colors())
+```
+
+
+```{r}
+p_select_churchyard= master_churchyard %>%
+select(Plats,KoordinaterX,KoordinaterY,Stilgruppering)
+p_select_churchyard1=p_select_churchyard %>%
+filter(Stilgruppering=='RAK' | Stilgruppering=='Pr2' |Stilgruppering=='Pr3' |Stilgruppering=='Pr4'|Stilgruppering=='Pr5'|Stilgruppering=='FP'|Stilgruppering=='Pr1') 
+count_churchyard=table(p_select_churchyard1$Stilgruppering)
+barplot(count_churchyard, main="stone in churchyard",xlab="period",col=colors())
+```
+
+Before the Christianity spread to Viking, we knew that the rune-stone disturbed in the church and cemetery. However, when it moved to the end of Viking period, most of rune-stone were gathered in the church. The centre of rune-stone had moved to the church. We doubted that this move was associated with the spread of Christianity. 
+
+
+
+```{r}
+
+
+p_select_churchplot=ggplot(p_select_church1,aes(KoordinaterX,KoordinaterY))
+p_select_churchplot+geom_point(aes(color=Stilgruppering))+labs(title ="rune_stone in church" )
+```
+
+
+```{r}
+
+p_select_churchyardplot=ggplot(p_select_churchyard1,aes(KoordinaterX,KoordinaterY))
+p_select_churchyardplot+geom_point(aes(color=Stilgruppering))+labs(title ="rune_stone in churchyard" )
+```
+
+## Summary
+The Christianity might spread to Viking even earlier than we expect. However, becuase the some of the rune-stone had been damage, and some have been destoried. It's impossible to find the exactly history of Viking. However, we can still use the data we have and to make hypothesis.

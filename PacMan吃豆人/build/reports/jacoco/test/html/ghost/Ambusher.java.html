@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ambusher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Milestone</a> &gt; <a href="index.source.html" class="el_package">ghost</a> &gt; <span class="el_source">Ambusher.java</span></div><h1>Ambusher.java</h1><pre class="source lang-java linenums">package ghost;
+
+import processing.core.PApplet;
+import processing.core.PImage;
+import processing.core.PApplet;
+import processing.core.PImage;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Iterator;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.io.FileWriter;
+import java.lang.Object;
+public class Ambusher{
+
+     private int x;
+     private int y;
+     private int xVel;
+     private int yVel;
+     private int xr;
+     private int yr;
+     private int d;
+     private PImage image;
+     private PImage ambusherpic;
+     private PImage frightened;
+     public boolean die;
+
+<span class="fc" id="L35">    public Ambusher(int x,int y,int xVel,int yVel,PImage image,PImage ambusherpic,PImage frightened){</span>
+<span class="fc" id="L36">        this.x=x;</span>
+<span class="fc" id="L37">        this.y=y;</span>
+<span class="fc" id="L38">        this.xVel=xVel;</span>
+<span class="fc" id="L39">        this.yVel=yVel;</span>
+<span class="fc" id="L40">        this.xr=x;</span>
+<span class="fc" id="L41">        this.yr=y;</span>
+<span class="fc" id="L42">        this.image=image;</span>
+<span class="fc" id="L43">        d=0;</span>
+<span class="fc" id="L44">        this.ambusherpic=ambusherpic;</span>
+<span class="fc" id="L45">        this.frightened=frightened;</span>
+<span class="fc" id="L46">        die=true;</span>
+<span class="fc" id="L47">    }</span>
+    public void tickxu(){
+<span class="fc" id="L49">        this.x += this.xVel;</span>
+<span class="fc" id="L50">    }</span>
+    public void tickxd(){
+<span class="fc" id="L52">        this.x -= this.xVel;</span>
+<span class="fc" id="L53">    }</span>
+    public void tickyu(){
+<span class="fc" id="L55">        this.y += this.yVel;</span>
+<span class="fc" id="L56">    }</span>
+    public void tickyd(){
+<span class="fc" id="L58">        this.y -= this.yVel;</span>
+<span class="fc" id="L59">    }</span>
+    public void setnimage(){
+<span class="fc" id="L61">        image=ambusherpic;</span>
+<span class="fc" id="L62">    }</span>
+    public void setfimage(){
+<span class="fc" id="L64">        image=frightened;</span>
+<span class="fc" id="L65">    }</span>
+    public void draw(PApplet app){
+<span class="nc" id="L67">        app.image(this.image,this.x,this.y);</span>
+<span class="nc" id="L68">    }</span>
+    public void reset(){
+<span class="fc" id="L70">        this.x=this.xr;</span>
+<span class="fc" id="L71">        this.y=this.yr;</span>
+<span class="fc" id="L72">        d=0;</span>
+<span class="fc" id="L73">        die=true;</span>
+<span class="fc" id="L74">        setnimage();</span>
+<span class="fc" id="L75">    }</span>
+    public int getx(){
+<span class="fc" id="L77">        return x;</span>
+    }
+    public int gety(){
+<span class="fc" id="L80">        return y;</span>
+    }
+    public void setx(int a){
+<span class="fc" id="L83">        x=a;</span>
+<span class="fc" id="L84">    }</span>
+    public void sety(int a){
+<span class="fc" id="L86">        y=a;</span>
+<span class="fc" id="L87">    }</span>
+    public boolean canselect(ArrayList&lt;String&gt; maparray){
+<span class="pc bpc" id="L89" title="1 of 4 branches missed.">        if(x%16==0&amp;&amp;y%16==0){</span>
+<span class="pc bpc" id="L90" title="1 of 2 branches missed.">            if(d==0){</span>
+<span class="fc" id="L91">                return true;</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            }else if(d==37){</span>
+<span class="nc bnc" id="L93" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)){</span>
+<span class="nc" id="L94">                    return true;</span>
+<span class="nc bnc" id="L95" title="All 6 branches missed.">                }else if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)){</span>
+<span class="nc" id="L96">                    return true;</span>
+<span class="nc bnc" id="L97" title="All 6 branches missed.">                }else if(!maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L98">                    return true;</span>
+                }else{
+<span class="nc" id="L100">                    return false;</span>
+                }
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            }else if(d==39){</span>
+<span class="nc bnc" id="L103" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L104">                    return true;</span>
+<span class="nc bnc" id="L105" title="All 6 branches missed.">                }else if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L106">                    return true;</span>
+<span class="nc bnc" id="L107" title="All 6 branches missed.">                }else if(!maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L108">                    return true;</span>
+                }else{
+<span class="nc" id="L110">                    return false;</span>
+                }
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            }else if(d==38){</span>
+<span class="nc bnc" id="L113" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L114">                    return true;</span>
+<span class="nc bnc" id="L115" title="All 6 branches missed.">                }else if(!maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L116">                    return true;</span>
+<span class="nc bnc" id="L117" title="All 6 branches missed.">                }else if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L118">                    return true;</span>
+                }else{
+<span class="nc" id="L120">                    return false;</span>
+                }
+<span class="nc bnc" id="L122" title="All 2 branches missed.">            }else if(d==40){</span>
+<span class="nc bnc" id="L123" title="All 6 branches missed.">                if(!maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L124">                    return true;</span>
+<span class="nc bnc" id="L125" title="All 6 branches missed.">                }else if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L126">                    return true;</span>
+<span class="nc bnc" id="L127" title="All 6 branches missed.">                }else if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L128">                    return true;</span>
+                }else{
+<span class="nc" id="L130">                    return false;</span>
+                }
+            }
+<span class="nc" id="L133">            return false;</span>
+        }else{
+<span class="fc" id="L135">            return false;</span>
+        }
+
+    }
+    public boolean haveisselect(ArrayList&lt;String&gt; maparray,int ed ,int x1,int y1){
+<span class="nc bnc" id="L140" title="All 4 branches missed.">        if(x1%16==0&amp;&amp;y1%16==0){</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if(ed==0){</span>
+<span class="nc" id="L142">                return true;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">            }else if(ed==37){</span>
+<span class="nc bnc" id="L144" title="All 6 branches missed.">                if(maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;0&quot;)||maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;7&quot;)||maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L145">                    return true;</span>
+<span class="nc bnc" id="L146" title="All 6 branches missed.">                }else if(maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;0&quot;)||maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;7&quot;)||maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L147">                    return true;</span>
+<span class="nc bnc" id="L148" title="All 6 branches missed.">                }else if(!maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L149">                    return true;</span>
+                }else{
+<span class="nc" id="L151">                    return false;</span>
+                }
+<span class="nc bnc" id="L153" title="All 2 branches missed.">            }else if(ed==39){</span>
+<span class="nc bnc" id="L154" title="All 6 branches missed.">                if(maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;0&quot;)||maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;7&quot;)||maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L155">                    return true;</span>
+<span class="nc bnc" id="L156" title="All 6 branches missed.">                }else if(maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;0&quot;)||maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;7&quot;)||maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L157">                    return true;</span>
+<span class="nc bnc" id="L158" title="All 6 branches missed.">                }else if(!maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L159">                    return true;</span>
+                }else{
+<span class="nc" id="L161">                    return false;</span>
+                }
+<span class="nc bnc" id="L163" title="All 2 branches missed.">            }else if(ed==38){</span>
+<span class="nc bnc" id="L164" title="All 6 branches missed.">                if(maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;0&quot;)||maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;7&quot;)||maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L165">                    return true;</span>
+<span class="nc bnc" id="L166" title="All 6 branches missed.">                }else if(!maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y1/16-1).substring(x1/16,x1/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L167">                    return true;</span>
+<span class="nc bnc" id="L168" title="All 6 branches missed.">                }else if(maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;0&quot;)||maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;7&quot;)||maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L169">                    return true;</span>
+                }else{
+<span class="nc" id="L171">                    return false;</span>
+                }
+<span class="nc bnc" id="L173" title="All 2 branches missed.">            }else if(ed==40){</span>
+<span class="nc bnc" id="L174" title="All 6 branches missed.">                if(!maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;0&quot;)&amp;&amp;!maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;7&quot;)&amp;&amp;!maparray.get(y1/16+1).substring(x1/16,x1/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L175">                    return true;</span>
+<span class="nc bnc" id="L176" title="All 6 branches missed.">                }else if(maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;0&quot;)||maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;7&quot;)||maparray.get(y1/16).substring(x1/16-1,x1/16).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L177">                    return true;</span>
+<span class="nc bnc" id="L178" title="All 6 branches missed.">                }else if(maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;0&quot;)||maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;7&quot;)||maparray.get(y1/16).substring(x1/16+1,x1/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc" id="L179">                    return true;</span>
+                }else{
+<span class="nc" id="L181">                    return false;</span>
+                }
+            }
+<span class="nc" id="L184">            return false;</span>
+        }else{
+<span class="nc" id="L186">            return false;</span>
+        }
+    }
+    public int select(ArrayList&lt;String&gt; maparray){
+<span class="fc" id="L190">        int[][] numarray = new int[4][2];</span>
+<span class="fc" id="L191">        int[] shortarray = new int[4];</span>
+<span class="fc" id="L192">        int x1=x;</span>
+<span class="fc" id="L193">        int y1=y;</span>
+<span class="fc" id="L194">        numarray[0][0]=100000;</span>
+<span class="fc" id="L195">        numarray[0][1]=100000;</span>
+<span class="fc" id="L196">        numarray[1][0]=100000;</span>
+<span class="fc" id="L197">        numarray[1][1]=100000;</span>
+<span class="fc" id="L198">        numarray[2][0]=100000;</span>
+<span class="fc" id="L199">        numarray[2][1]=100000;</span>
+<span class="fc" id="L200">        numarray[3][0]=100000;</span>
+<span class="fc" id="L201">        numarray[3][1]=100000;</span>
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        if(canselect(maparray)){</span>
+<span class="nc bnc" id="L203" title="All 2 branches missed.">            if(d==0){</span>
+<span class="nc bnc" id="L204" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L205" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L206">                        y1-=16;</span>
+                    }
+
+<span class="nc" id="L209">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L210">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L211">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L213" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L215">                        y1+=16;</span>
+                    }
+
+<span class="nc" id="L218">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L219">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L220">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L222" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L223" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L224">                        x1+=16;</span>
+                    }
+
+<span class="nc" id="L227">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L228">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L229">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L231" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L232" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L233">                        x1-=16;</span>
+                    }
+
+<span class="nc" id="L236">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L237">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L238">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L240" title="All 2 branches missed.">            }else if(d==37){</span>
+<span class="nc bnc" id="L241" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L242" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L243">                        y1-=16;</span>
+                    }
+<span class="nc" id="L245">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L246">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L247">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L249" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L250" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L251">                        y1+=16;</span>
+                    }
+<span class="nc" id="L253">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L254">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L255">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L257" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L259">                        x1-=16;</span>
+                    }
+<span class="nc" id="L261">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L262">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L263">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L265" title="All 2 branches missed.">            }else if(d==38){</span>
+<span class="nc bnc" id="L266" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L267" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1)){</span>
+<span class="nc" id="L268">                        y1-=16;</span>
+                    }
+<span class="nc" id="L270">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L271">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L272">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L274" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L275" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L276">                        x1+=16;</span>
+                    }
+<span class="nc" id="L278">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L279">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L280">                    x1=x;</span>
+
+                }
+<span class="nc bnc" id="L283" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L284" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L285">                        x1-=16;</span>
+                    }
+<span class="nc" id="L287">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L288">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L289">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            }else if(d==39){</span>
+<span class="nc bnc" id="L292" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L293" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L294">                        y1-=16;</span>
+                    }
+<span class="nc" id="L296">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L297">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L298">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L300" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L302">                        y1+=16;</span>
+                    }
+<span class="nc" id="L304">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L305">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L306">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L308" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+
+<span class="nc bnc" id="L310" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L311">                        x1+=16;</span>
+                    }
+<span class="nc" id="L313">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L314">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L315">                    x1=x;</span>
+
+                }
+<span class="nc bnc" id="L318" title="All 2 branches missed.">            }else if(d==40){</span>
+<span class="nc bnc" id="L319" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L320" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L321">                        y1+=16;</span>
+                    }
+<span class="nc" id="L323">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L324">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L325">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L327" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L329">                        x1+=16;</span>
+                    }
+<span class="nc" id="L331">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L332">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L333">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L335" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+
+<span class="nc bnc" id="L337" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L338">                        x1-=16;</span>
+                    }
+<span class="nc" id="L340">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L341">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L342">                    x1=x;</span>
+                }
+            }
+
+<span class="nc" id="L346">            int i=0;</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">            for (int[] na : numarray){</span>
+<span class="nc bnc" id="L348" title="All 4 branches missed.">                if(na[0]==100000&amp;&amp;na[1]==100000){</span>
+
+<span class="nc" id="L350">                    shortarray[i]=100000;</span>
+                }else{
+<span class="nc" id="L352">                    shortarray[i]=(na[0]/16-27)*(na[0]/16-27)+(na[1]/16-3)*(na[1]/16-3);</span>
+                }
+<span class="nc" id="L354">                i+=1;</span>
+            }
+<span class="nc" id="L356">            i=0;</span>
+<span class="nc" id="L357">            int ii=0;</span>
+<span class="nc" id="L358">            int c=100000;</span>
+<span class="nc bnc" id="L359" title="All 2 branches missed.">            for (int n : shortarray){</span>
+<span class="nc bnc" id="L360" title="All 2 branches missed.">                if(n&lt;c){</span>
+<span class="nc" id="L361">                    c=n;</span>
+<span class="nc" id="L362">                    ii=i;</span>
+                }
+<span class="nc" id="L364">                i+=1;</span>
+            }
+
+<span class="nc" id="L367">            return ii;</span>
+        }else{
+<span class="fc" id="L369">            return 4;</span>
+        }
+    }
+    public int cselect(ArrayList&lt;String&gt; maparray,Player player,int ddd){
+<span class="fc" id="L373">        int[][] numarray = new int[4][2];</span>
+<span class="fc" id="L374">        int[] shortarray = new int[4];</span>
+<span class="fc" id="L375">        numarray[0][0]=100000;</span>
+<span class="fc" id="L376">        numarray[0][1]=100000;</span>
+<span class="fc" id="L377">        numarray[1][0]=100000;</span>
+<span class="fc" id="L378">        numarray[1][1]=100000;</span>
+<span class="fc" id="L379">        numarray[2][0]=100000;</span>
+<span class="fc" id="L380">        numarray[2][1]=100000;</span>
+<span class="fc" id="L381">        numarray[3][0]=100000;</span>
+<span class="fc" id="L382">        numarray[3][1]=100000;</span>
+
+<span class="fc" id="L384">        int x1=x;</span>
+<span class="fc" id="L385">        int y1=y;</span>
+<span class="pc bpc" id="L386" title="1 of 2 branches missed.">        if(canselect(maparray)){</span>
+<span class="nc bnc" id="L387" title="All 2 branches missed.">            if(d==0){</span>
+<span class="nc bnc" id="L388" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L389" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L390">                        y1-=16;</span>
+                    }
+
+<span class="nc" id="L393">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L394">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L395">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L397" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L398" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L399">                        y1+=16;</span>
+                    }
+
+<span class="nc" id="L402">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L403">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L404">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L406" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L407" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L408">                        x1+=16;</span>
+                    }
+
+<span class="nc" id="L411">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L412">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L413">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L415" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L416" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L417">                        x1-=16;</span>
+                    }
+
+<span class="nc" id="L420">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L421">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L422">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L424" title="All 2 branches missed.">            }else if(d==37){</span>
+<span class="nc bnc" id="L425" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L426" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L427">                        y1-=16;</span>
+                    }
+<span class="nc" id="L429">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L430">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L431">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L433" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L434" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L435">                        y1+=16;</span>
+                    }
+<span class="nc" id="L437">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L438">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L439">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L441" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L442" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L443">                        x1-=16;</span>
+                    }
+<span class="nc" id="L445">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L446">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L447">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L449" title="All 2 branches missed.">            }else if(d==38){</span>
+<span class="nc bnc" id="L450" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L451" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1)){</span>
+<span class="nc" id="L452">                        y1-=16;</span>
+                    }
+<span class="nc" id="L454">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L455">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L456">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L458" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L459" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L460">                        x1+=16;</span>
+                    }
+<span class="nc" id="L462">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L463">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L464">                    x1=x;</span>
+
+                }
+<span class="nc bnc" id="L467" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L468" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L469">                        x1-=16;</span>
+                    }
+<span class="nc" id="L471">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L472">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L473">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L475" title="All 2 branches missed.">            }else if(d==39){</span>
+<span class="nc bnc" id="L476" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L477" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L478">                        y1-=16;</span>
+                    }
+<span class="nc" id="L480">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L481">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L482">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L484" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L485" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L486">                        y1+=16;</span>
+                    }
+<span class="nc" id="L488">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L489">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L490">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L492" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+
+<span class="nc bnc" id="L494" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L495">                        x1+=16;</span>
+                    }
+<span class="nc" id="L497">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L498">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L499">                    x1=x;</span>
+
+                }
+<span class="nc bnc" id="L502" title="All 2 branches missed.">            }else if(d==40){</span>
+<span class="nc bnc" id="L503" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L504" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L505">                        y1+=16;</span>
+                    }
+<span class="nc" id="L507">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L508">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L509">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L511" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L512" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L513">                        x1+=16;</span>
+                    }
+<span class="nc" id="L515">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L516">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L517">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L519" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+
+<span class="nc bnc" id="L521" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L522">                        x1-=16;</span>
+                    }
+<span class="nc" id="L524">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L525">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L526">                    x1=x;</span>
+                }
+            }
+<span class="nc" id="L529">            int i=0;</span>
+<span class="nc bnc" id="L530" title="All 2 branches missed.">            for (int[] na : numarray){</span>
+
+<span class="nc bnc" id="L532" title="All 4 branches missed.">                if(na[0]==100000&amp;&amp;na[1]==100000){</span>
+<span class="nc" id="L533">                    shortarray[i]=100000;</span>
+                }else{
+<span class="nc bnc" id="L535" title="All 2 branches missed.">                    if(ddd==37){</span>
+<span class="nc" id="L536">                        shortarray[i]=(na[0]/16-player.getx()/16+4)*(na[0]/16-player.getx()/16+4)+(na[1]/16-player.gety()/16)*(na[1]/16-player.gety()/16);</span>
+<span class="nc bnc" id="L537" title="All 2 branches missed.">                    }else if(ddd==38){</span>
+<span class="nc" id="L538">                        shortarray[i]=(na[0]/16-player.getx()/16)*(na[0]/16-player.getx()/16)+(na[1]/16-player.gety()/16+4)*(na[1]/16-player.gety()/16+4);</span>
+<span class="nc bnc" id="L539" title="All 2 branches missed.">                    }else if(ddd==39){</span>
+<span class="nc" id="L540">                        shortarray[i]=(na[0]/16-player.getx()/16-4)*(na[0]/16-player.getx()/16-4)+(na[1]/16-player.gety()/16)*(na[1]/16-player.gety()/16);</span>
+<span class="nc bnc" id="L541" title="All 2 branches missed.">                    }else if(ddd==40){</span>
+<span class="nc" id="L542">                        shortarray[i]=(na[0]/16-player.getx()/16)*(na[0]/16-player.getx()/16)+(na[1]/16-player.gety()/16-4)*(na[1]/16-player.gety()/16-4);</span>
+                    }
+
+                }
+<span class="nc" id="L546">                i+=1;</span>
+            }
+
+<span class="nc" id="L549">            i=0;</span>
+<span class="nc" id="L550">            int ii=0;</span>
+<span class="nc" id="L551">            int c=100000;</span>
+<span class="nc bnc" id="L552" title="All 2 branches missed.">            for (int n : shortarray){</span>
+
+<span class="nc bnc" id="L554" title="All 2 branches missed.">                if(n&lt;c){</span>
+<span class="nc" id="L555">                    c=n;</span>
+<span class="nc" id="L556">                    ii=i;</span>
+                }
+<span class="nc" id="L558">                i+=1;</span>
+            }
+<span class="nc" id="L560">            return ii;</span>
+        }else{
+<span class="fc" id="L562">            return 4;</span>
+        }
+    }
+
+    public int ff(ArrayList&lt;String&gt; maparray,Player player){
+<span class="fc" id="L567">        int[][] numarray = new int[4][2];</span>
+<span class="fc" id="L568">        int[] shortarray = new int[4];</span>
+<span class="fc" id="L569">        numarray[0][0]=100000;</span>
+<span class="fc" id="L570">        numarray[0][1]=100000;</span>
+<span class="fc" id="L571">        numarray[1][0]=100000;</span>
+<span class="fc" id="L572">        numarray[1][1]=100000;</span>
+<span class="fc" id="L573">        numarray[2][0]=100000;</span>
+<span class="fc" id="L574">        numarray[2][1]=100000;</span>
+<span class="fc" id="L575">        numarray[3][0]=100000;</span>
+<span class="fc" id="L576">        numarray[3][1]=100000;</span>
+
+<span class="fc" id="L578">        int x1=x;</span>
+<span class="fc" id="L579">        int y1=y;</span>
+<span class="pc bpc" id="L580" title="1 of 2 branches missed.">        if(canselect(maparray)){</span>
+<span class="nc bnc" id="L581" title="All 2 branches missed.">            if(d==0){</span>
+<span class="nc bnc" id="L582" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L583" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L584">                        y1-=16;</span>
+                    }
+
+<span class="nc" id="L587">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L588">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L589">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L591" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L592" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L593">                        y1+=16;</span>
+                    }
+
+<span class="nc" id="L596">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L597">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L598">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L600" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L601" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L602">                        x1+=16;</span>
+                    }
+
+<span class="nc" id="L605">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L606">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L607">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L609" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L610" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L611">                        x1-=16;</span>
+                    }
+
+<span class="nc" id="L614">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L615">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L616">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L618" title="All 2 branches missed.">            }else if(d==37){</span>
+<span class="nc bnc" id="L619" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L620" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L621">                        y1-=16;</span>
+                    }
+<span class="nc" id="L623">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L624">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L625">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L627" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L628" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L629">                        y1+=16;</span>
+                    }
+<span class="nc" id="L631">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L632">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L633">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L635" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L636" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L637">                        x1-=16;</span>
+                    }
+<span class="nc" id="L639">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L640">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L641">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L643" title="All 2 branches missed.">            }else if(d==38){</span>
+<span class="nc bnc" id="L644" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L645" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1)){</span>
+<span class="nc" id="L646">                        y1-=16;</span>
+                    }
+<span class="nc" id="L648">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L649">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L650">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L652" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L653" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L654">                        x1+=16;</span>
+                    }
+<span class="nc" id="L656">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L657">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L658">                    x1=x;</span>
+
+                }
+<span class="nc bnc" id="L661" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L662" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L663">                        x1-=16;</span>
+                    }
+<span class="nc" id="L665">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L666">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L667">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L669" title="All 2 branches missed.">            }else if(d==39){</span>
+<span class="nc bnc" id="L670" title="All 6 branches missed.">                if(maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16-1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L671" title="All 2 branches missed.">                    while(!haveisselect(maparray,38,x1,y1-16)){</span>
+<span class="nc" id="L672">                        y1-=16;</span>
+                    }
+<span class="nc" id="L674">                    numarray[0][0]=x1;</span>
+<span class="nc" id="L675">                    numarray[0][1]=y1;</span>
+<span class="nc" id="L676">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L678" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L679" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L680">                        y1+=16;</span>
+                    }
+<span class="nc" id="L682">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L683">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L684">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L686" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+
+<span class="nc bnc" id="L688" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L689">                        x1+=16;</span>
+                    }
+<span class="nc" id="L691">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L692">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L693">                    x1=x;</span>
+
+                }
+<span class="nc bnc" id="L696" title="All 2 branches missed.">            }else if(d==40){</span>
+<span class="nc bnc" id="L697" title="All 6 branches missed.">                if(maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;0&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;7&quot;)||maparray.get(y/16+1).substring(x/16,x/16+1).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L698" title="All 2 branches missed.">                     while(!haveisselect(maparray,40,x1,y1+16)){</span>
+<span class="nc" id="L699">                        y1+=16;</span>
+                    }
+<span class="nc" id="L701">                    numarray[2][0]=x1;</span>
+<span class="nc" id="L702">                    numarray[2][1]=y1;</span>
+<span class="nc" id="L703">                    y1=y;</span>
+                }
+<span class="nc bnc" id="L705" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16+1,x/16+2).equals(&quot;8&quot;)){</span>
+<span class="nc bnc" id="L706" title="All 2 branches missed.">                     while(!haveisselect(maparray,39,x1+16,y1)){</span>
+<span class="nc" id="L707">                        x1+=16;</span>
+                    }
+<span class="nc" id="L709">                    numarray[1][0]=x1;</span>
+<span class="nc" id="L710">                    numarray[1][1]=y1;</span>
+<span class="nc" id="L711">                    x1=x;</span>
+                }
+<span class="nc bnc" id="L713" title="All 6 branches missed.">                if(maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;0&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;7&quot;)||maparray.get(y/16).substring(x/16-1,x/16).equals(&quot;8&quot;)){</span>
+
+<span class="nc bnc" id="L715" title="All 2 branches missed.">                     while(!haveisselect(maparray,37,x1-16,y1)){</span>
+<span class="nc" id="L716">                        x1-=16;</span>
+                    }
+<span class="nc" id="L718">                    numarray[3][0]=x1;</span>
+<span class="nc" id="L719">                    numarray[3][1]=y1;</span>
+<span class="nc" id="L720">                    x1=x;</span>
+                }
+            }
+<span class="nc" id="L723">            int i=0;</span>
+<span class="nc" id="L724">            int num=0;</span>
+<span class="nc" id="L725">            num=(int)(37+Math.random()*(4-1+1));</span>
+<span class="nc bnc" id="L726" title="All 2 branches missed.">            while(i==0){</span>
+<span class="nc bnc" id="L727" title="All 6 branches missed.">                if(num==37&amp;&amp; numarray[3][0]==100000&amp;&amp;numarray[3][1]==100000){</span>
+<span class="nc" id="L728">                    num=(int)(37+Math.random()*(4-1+1));</span>
+<span class="nc bnc" id="L729" title="All 6 branches missed.">                }else if(num==38&amp;&amp; numarray[0][0]==100000&amp;&amp;numarray[0][1]==100000){</span>
+<span class="nc" id="L730">                    num=(int)(37+Math.random()*(4-1+1));</span>
+<span class="nc bnc" id="L731" title="All 6 branches missed.">                }else if(num==39&amp;&amp; numarray[1][0]==100000&amp;&amp;numarray[1][1]==100000){</span>
+<span class="nc" id="L732">                    num=(int)(37+Math.random()*(4-1+1));</span>
+<span class="nc bnc" id="L733" title="All 6 branches missed.">                }else if(num==40&amp;&amp; numarray[2][0]==100000&amp;&amp;numarray[2][1]==100000){</span>
+<span class="nc" id="L734">                    num=(int)(37+Math.random()*(4-1+1));</span>
+                }else{
+<span class="nc" id="L736">                    i=1;</span>
+                }
+            }
+<span class="nc" id="L739">            return num;</span>
+        }else{
+<span class="fc" id="L741">            return 0;</span>
+        }
+    }
+
+
+
+
+
+    public void move(Player player,int scatter, int chase, int t,ArrayList&lt;String&gt; maparray,int ddd){
+
+<span class="fc bfc" id="L751" title="All 2 branches covered.">        if(t%(60*scatter+60*chase)&lt;=60*scatter){</span>
+<span class="pc bpc" id="L752" title="1 of 2 branches missed.">            if(select(maparray)==0){</span>
+<span class="nc" id="L753">                d=38;</span>
+<span class="nc" id="L754">                this.tickyd();</span>
+<span class="pc bpc" id="L755" title="1 of 2 branches missed.">            }else if(select(maparray)==1){</span>
+<span class="nc" id="L756">                d=39;</span>
+<span class="nc" id="L757">                this.tickxu();</span>
+<span class="pc bpc" id="L758" title="1 of 2 branches missed.">            }else if(select(maparray)==2){</span>
+<span class="nc" id="L759">                d=40;</span>
+<span class="nc" id="L760">                this.tickyu();</span>
+<span class="pc bpc" id="L761" title="1 of 2 branches missed.">            }else if(select(maparray)==3){</span>
+<span class="nc" id="L762">                d=37;</span>
+<span class="nc" id="L763">                this.tickxd();</span>
+<span class="pc bpc" id="L764" title="1 of 2 branches missed.">            }else if(select(maparray)==4){</span>
+<span class="pc bpc" id="L765" title="1 of 2 branches missed.">                if(d==38){</span>
+<span class="nc" id="L766">                    this.tickyd();</span>
+<span class="pc bpc" id="L767" title="1 of 2 branches missed.">                }else if(d==39){</span>
+<span class="nc" id="L768">                    this.tickxu();</span>
+<span class="pc bpc" id="L769" title="1 of 2 branches missed.">                }else if(d==40){</span>
+<span class="nc" id="L770">                    this.tickyu();</span>
+<span class="pc bpc" id="L771" title="1 of 2 branches missed.">                }else if(d==37){</span>
+<span class="nc" id="L772">                    this.tickxd();</span>
+                }
+            }
+        }else{
+<span class="pc bpc" id="L776" title="1 of 2 branches missed.">            if(cselect(maparray,player,ddd)==0){</span>
+<span class="nc" id="L777">                d=38;</span>
+<span class="nc" id="L778">                this.tickyd();</span>
+<span class="pc bpc" id="L779" title="1 of 2 branches missed.">            }else if(cselect(maparray,player,ddd)==1){</span>
+<span class="nc" id="L780">                d=39;</span>
+<span class="nc" id="L781">                this.tickxu();</span>
+<span class="pc bpc" id="L782" title="1 of 2 branches missed.">            }else if(cselect(maparray,player,ddd)==2){</span>
+<span class="nc" id="L783">                d=40;</span>
+<span class="nc" id="L784">                this.tickyu();</span>
+<span class="pc bpc" id="L785" title="1 of 2 branches missed.">            }else if(cselect(maparray,player,ddd)==3){</span>
+<span class="nc" id="L786">                d=37;</span>
+<span class="nc" id="L787">                this.tickxd();</span>
+<span class="pc bpc" id="L788" title="1 of 2 branches missed.">            }else if(cselect(maparray,player,ddd)==4){</span>
+<span class="pc bpc" id="L789" title="1 of 2 branches missed.">                if(d==38){</span>
+<span class="nc" id="L790">                    this.tickyd();</span>
+<span class="pc bpc" id="L791" title="1 of 2 branches missed.">                }else if(d==39){</span>
+<span class="nc" id="L792">                    this.tickxu();</span>
+<span class="pc bpc" id="L793" title="1 of 2 branches missed.">                }else if(d==40){</span>
+<span class="nc" id="L794">                    this.tickyu();</span>
+<span class="pc bpc" id="L795" title="1 of 2 branches missed.">                }else if(d==37){</span>
+<span class="nc" id="L796">                    this.tickxd();</span>
+                }
+            }
+        }
+
+<span class="fc" id="L801">    }</span>
+    public void f(Player player,ArrayList&lt;String&gt; maparray){
+<span class="pc bpc" id="L803" title="1 of 2 branches missed.">        if(ff(maparray,player)==38){</span>
+<span class="nc" id="L804">            d=38;</span>
+<span class="nc" id="L805">            this.tickyd();</span>
+<span class="pc bpc" id="L806" title="1 of 2 branches missed.">        }else if(ff(maparray,player)==39){</span>
+<span class="nc" id="L807">            d=39;</span>
+<span class="nc" id="L808">            this.tickxu();</span>
+<span class="pc bpc" id="L809" title="1 of 2 branches missed.">        }else if(ff(maparray,player)==40){</span>
+<span class="nc" id="L810">            d=40;</span>
+<span class="nc" id="L811">            this.tickyu();</span>
+<span class="pc bpc" id="L812" title="1 of 2 branches missed.">        }else if(ff(maparray,player)==37){</span>
+<span class="nc" id="L813">            d=37;</span>
+<span class="nc" id="L814">            this.tickxd();</span>
+<span class="pc bpc" id="L815" title="1 of 2 branches missed.">        }else if(ff(maparray,player)==0){</span>
+<span class="pc bpc" id="L816" title="1 of 2 branches missed.">            if(d==38){</span>
+<span class="nc" id="L817">                this.tickyd();</span>
+<span class="pc bpc" id="L818" title="1 of 2 branches missed.">            }else if(d==39){</span>
+<span class="nc" id="L819">                this.tickxu();</span>
+<span class="pc bpc" id="L820" title="1 of 2 branches missed.">            }else if(d==40){</span>
+<span class="nc" id="L821">                this.tickyu();</span>
+<span class="pc bpc" id="L822" title="1 of 2 branches missed.">            }else if(d==37){</span>
+<span class="nc" id="L823">                this.tickxd();</span>
+            }
+        }
+<span class="fc" id="L826">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

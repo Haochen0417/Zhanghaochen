@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Course</title>
+  <link href="/css/index.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="main">
+  <div class="sidenav">
+    <div class="title">Lesson navigation</div>
+    <ul>
+      <li><a href="#1">Invalid Syntax in Python</a></li>
+      <li><a href="#2">SyntaxError Exception and Traceback</a></li>
+
+    </ul>
+  </div>
+  <div class="content">
+    <img src="/img/images/py1/image%201.png" alt="banner" style="width: 894px; height: 503px"/>
+    <h1>Invalid Syntax in Python:<br/>
+      Common Reasons for SyntaxError</h1>
+    <h3 class="mute">by Chad Hansen</h3>
+    <p class="mute"><i>This article is credit to <a href="https://realpython.com/invalid-syntax-python/">Real Python</a></i>
+    </p>
+    <p>Python is known for its simple syntax. However, when you’re learning Python for the first time or when you’ve
+      come to Python with a solid background in another programming language, you may run into some things that Python
+      doesn’t allow. If you’ve ever received a SyntaxError when trying to run your Python code, then this guide can help
+      you. Throughout this tutorial, you’ll see common examples of invalid syntax in Python and learn how to resolve the
+      issue.</p>
+
+    <p><b> By the end of this tutorial, you’ll be able to:</b></p>
+
+    <ul>
+      <li>Identify invalid syntax in Python</li>
+      <li>Make sense of SyntaxError tracebacks</li>
+      <li>Resolve invalid syntax or prevent it altogether</li>
+    </ul>
+
+    <h2 id="1">Invalid Syntax in Python</h2>
+    <p>When you run your Python code, the interpreter will first parse it to convert it into Python byte code, which it
+      will then execute. The interpreter will find any invalid syntax in Python during this first stage of program
+      execution, also known as the parsing stage. If the interpreter can’t parse your Python code successfully, then
+      this means that you used invalid syntax somewhere in your code. The interpreter will attempt to show you where
+      that error occurred.</p>
+    <br/>
+    <p>
+      When you’re learning Python for the first time, it can be frustrating to get a SyntaxError. Python will attempt to
+      help you determine where the invalid syntax is in your code, but the traceback it provides can be a little
+      confusing. Sometimes, the code it points to is perfectly fine.
+    </p>
+
+    <h2 id="2">SyntaxError Exception and Traceback</h2>
+
+    <p>When the interpreter encounters invalid syntax in Python code, it will raise a SyntaxError exception and provide
+      a traceback with some helpful information to help you debug the error. Here’s some code that contains invalid
+      syntax in Python:</p>
+
+    <img alt="code" src="/img/images/py1/image%202.png" style="width: 805px; height: 243px"/>
+
+    <p>And here is a tutorial video you may find helpful:</p>
+
+    <img alt="code" src="/img/images/py1/image%203.png" style="width: 497px; height: 309px"/>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+bottle
+sqlite3
+webdriver_manager
+selenium
